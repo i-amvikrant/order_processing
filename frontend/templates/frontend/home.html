@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Title</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="{% static 'frontend/main.css' %}">
+    
+     </head>
+    <body>
+        <h1>Home</h1>
+        <br>
+        <div class="container">
+            <input id="name_search_tags" type="text" placeholder="Search..."><br>
+        </div>
+        <br>
+        <button id='b1' name = 'click'>click</button>
+        <div id = "write">
+
+        </div>
+    </body>
+    <script src = "{% static 'frontend/auto_complete.js'%}">
+        
+
+    </script>
+</html>

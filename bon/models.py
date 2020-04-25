@@ -1,5 +1,6 @@
 from django.db import models
 from phone_field import PhoneField
+from PIL import Image
 
 # Create your models here.
 class parts(models.Model):
@@ -14,6 +15,7 @@ class parts(models.Model):
     width = models.FloatField('Width(in cm')
     length = models.FloatField('Length(in cm')
     cost = models.IntegerField('Cost(in rupees')
+    image = models.ImageField(upload_to='media/parts', default='abc.jpg')
 
     def __str__(self):
         return self.PartID
@@ -37,9 +39,15 @@ class modules(models.Model):
 
     designID = models.CharField(max_length=10, primary_key=True, default='000')
     name = models.CharField(max_length=20, default='aaaa')
+    description = models.TextField( default='none')
     Type = models.CharField(max_length=10, default='aaaa')
     made = models.DateField(auto_now=True)
-    inventory = models.IntegerField(default=111)
+    image = models.ImageField(upload_to='media/parts', default='abc.jpg')
+    inventory = models.IntegerField(default=0)
+    design_fee = models.IntegerField('design_fee(in rupees)', default=0)
+    assembly_fee = models.IntegerField('per_piece_assembly_fee(in rupees', default=0)
+    parts = models.IntegerField('Number of parts',default=0)
+    Sub_modules = models.IntegerField('Number of modules', default=0)
 
     def __str__(self):
         return self.name
@@ -55,6 +63,10 @@ class part_list(models.Model):
         return "DesignID :{}, PartID :{}".format(self.designID,self.PartID)
 
 
+    class Meta:
+        unique_together = (('designID','PartID'))
+
+
 class sub_module_list(models.Model):
 
     designID = models.ForeignKey('modules', on_delete = models.CASCADE, related_name = 'Module')
@@ -63,6 +75,9 @@ class sub_module_list(models.Model):
 
     def __str__(self):
         return "Product :{}, Sub_module :{}".format(self.designID, self.subID)
+
+    class Meta:
+        unique_together = (('designID','subID'))
 
 
 class customer(models.Model):
