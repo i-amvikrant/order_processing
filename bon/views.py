@@ -26,7 +26,7 @@ class parts_list(APIView):
         return Response(serializer.data)
 
 
-class modules_list(generics.ListAPIView):
+class modules_list(generics.ListCreateAPIView):
     queryset = modules.objects.all()
     serializer_class = modules_serializer
 

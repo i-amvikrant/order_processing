@@ -15,7 +15,7 @@ class parts(models.Model):
     width = models.FloatField('Width(in cm')
     length = models.FloatField('Length(in cm')
     cost = models.IntegerField('Cost(in rupees')
-    image = models.ImageField(upload_to='media/parts', default='abc.jpg')
+    image = models.ImageField(upload_to='parts', default='abc.jpg')
 
     def __str__(self):
         return self.PartID
@@ -48,6 +48,7 @@ class modules(models.Model):
     assembly_fee = models.IntegerField('per_piece_assembly_fee(in rupees', default=0)
     parts = models.IntegerField('Number of parts',default=0)
     Sub_modules = models.IntegerField('Number of modules', default=0)
+    Total_cost = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name

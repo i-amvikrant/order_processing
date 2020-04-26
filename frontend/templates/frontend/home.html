@@ -1,31 +1,61 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
-    <head>
-        <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Title</title>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="{% static 'frontend/main.css' %}">
-    
-     </head>
-    <body>
-        <h1>Home</h1>
-        <br>
-        <div class="container">
-            <input id="name_search_tags" type="text" placeholder="Search..."><br>
+{% extends "frontend/base.html" %}
+{% block content%}
+    <div class="row"> 
+        <div class = "col-sm-3 col-2 fixed-top one">
+            <br>
+            <br>
+            <input id="designID" type="text" class="form-control" placeholder="Design Id .."><br>
+            <div class="dropdown">
+                <input id="name_search_tags" type="text" class="form-control" placeholder="search for parts"><br>
+            </div>
+            <input type="number" id="quantity"  name="q1" min="1" max='100' placeholder="quantity">
+            <button id='b1' name = 'click'>add part</button><br><br>
+            <div class="dropdown">
+                <input id="name_search_tags2" type="text" class="form-control" placeholder="Search for sub-modules"><br>
+            </div>
+            <input type="number" id="quantity2"  name="q2" min="1" max='100' placeholder="quantity">
+            <button id='b2' name = 'click2'>add module</button>
+            <br><br>
+            <input id="name" type="text" class="form-control" placeholder="Enter module name.."><br>
+            <textarea name="description" class="form-control" placeholder="Enter the Description"></textarea><br>
+            <input id="type" type="text" class="form-control" placeholder="Enter type"><br>
+            <input id="Design_fee" type="text" class="form-control" placeholder="Design fee (in rupees)"><br>
+            <input id="assembly_fee" type="text" class="form-control" placeholder="Per assembly fee (in rupees)"><br>
+            <input type="file" id="myFile" name="filename">
+            <button id='test' name='post'>post</button>
         </div>
-        <br>
-        <button id='b1' name = 'click'>click</button>
-        <div id = "write">
-
+        <div class = "col-sm-9 offset-sm-6 two" id = "write">
+            <div class="card">
+                <div class="card-body">
+                  
+                  <div class = "col-sm-1">
+                    <p class="card-text">ID</p>
+                  </div>
+                  <div class = "col-sm-1">
+                    <p class="card-text">Name</p>
+                  </div>
+                  <div class = "col-sm-3">
+                    <p class="card-text">Description</p>
+                  </div>
+                  <div class = "col-sm-1">
+                    <p class="card-text">type</p>
+                  </div>
+                  <div class = "col-sm-3">
+                    <p class="card-text">Image</p>
+                  </div>
+                  <div class = "col-sm-1">
+                    <p class="card-text">cost(per)</p>
+                  </div>
+                  <div class = "col-sm-1">
+                    <p class="card-text">quantity</p>
+                  </div>
+                  <div class = "col-sm-1">
+                    <p class="card-text">remove</p>
+                  </div>
+                </div>
+              </div>
+              <hr>
         </div>
-    </body>
-    <script src = "{% static 'frontend/auto_complete.js'%}">
+    </div>
         
-
-    </script>
-</html>
+{% endblock content %}
