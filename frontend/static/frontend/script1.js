@@ -1,6 +1,10 @@
 
-var addedparts = [];
-var addedparts2 = [];
+var addedparts = {};
+var addedparts2 = {};
+
+var partcost = {};
+var modulecost = {};
+
 function urlExists(url, callback){
     $.ajax({
       type: 'HEAD',
@@ -30,98 +34,77 @@ function urlExists(url, callback){
     return cookieValue;
 }
 
-function checkifpresent(id){
-    for(x in addedparts){
-        if(addedparts[x][0]==id){
-            return false;
-        }
+function remove_part(ID){
+
+    if(ID in addedparts){
+        console.log(addedparts);
+        delete addedparts[ID];
+        delete partcost[ID];
+        console.log(partcost);
     }
-    return true;
+    else{
+        console.log(addedparts2);
+        delete addedparts2[ID];
+        delete modulecost[ID];
+        console.log(modulecost);
+    }
+    
+    $("#"+ID).remove();
 }
 
-function checkifpresent2(id){
-    for(x in addedparts2){
-        if(addedparts2[x][0]==id){
-            return false;
-        }
-    }
-    return true;
-}
-
-function remove_part(partID){
-
-    var val;
-
-    for(x in addedparts){
-        if(addedparts[x][0]==partID){
-            val = addedparts[x];
-        }
-    }
-
-    const ind = addedparts.indexOf(val);
-    addedparts.splice(ind,1);
-    console.log(addedparts);
-    $("#"+partID).remove();
-
-
-}
-
-function remove_part2(partID){
-
-    var val;
-
-    for(x in addedparts2){
-        if(addedparts2[x][0]==partID){
-            val = addedparts2[x];
-        }
-    }
-
-    const ind = addedparts2.indexOf(val);
-    addedparts2.splice(ind,1);
-    console.log(addedparts2);
-    $("#"+partID).remove();
-
-
-}
 
 function create_card(json){
 
-    var val;
+    var id,nm,des,ty,image,cost,quant;
 
-    for(x in addedparts){
-        if(addedparts[x][0]==json.PartID){
-            val = addedparts[x];
-        }
+    nm = json.name;
+    des = json.description;
+    image = json.image;
+
+    if("PartID" in json){
+        id = json.PartID;
+        cost = json.cost;
+        ty = json.partType;
+        quant = addedparts[id];
+    }
+    else{
+        id = json.designID;
+        cost = json.Total_cost;
+        ty = json.Type;
+        quant = addedparts2[id];
     }
 
     $("#write").append(`
-        <div id="`+json.PartID+`" class="card">
+        <div id="`+id+`" class="card">
         <div class='row align-items-center'>
             <div class="card-body">
             
             <div class = "col-sm-1">
-                <p class="card-text">`+json.PartID+`</p>
+                <p class="card-text">`+id+`</p>
             </div>
             <div class = "col-sm-1 ">
-                <p class="card-text">`+json.name+`</p>
+                <p class="card-text">`+nm+`</p>
             </div>
             <div class = "col-sm-3 ">
-                <p class="card-text">`+json.description+`</p>
+                <p class="card-text">`+des+`</p>
             </div>
             <div class = "col-sm-1">
-                <p class="card-text">`+json.partType+`</p>
+                <p class="card-text">`+ty+`</p>
             </div>
             <div class = "col-sm-3">
-                <p class="card-text"><img src="`+json.image+`" class="img-thumbnail" alt="Cinque Terre"></a></p>
+                <p class="card-text"><img src="`+image+`" class="img-thumbnail" alt="Cinque Terre"></a></p>
             </div>
             <div class = "col-sm-1">
-                <p class="card-text">`+json.cost+`</p>
+                <p class="card-text">`+cost+`</p>
             </div>
             <div class = "col-sm-1">
-                <p class="card-text">`+val[1]+`</p>
+                <p class="card-text">`+quant+`</p>
             </div>
             <div class = "col-sm-1">
-                <p class="card-text"><button type="button" class="btn btn-info" onclick = "remove_part('`+val[0]+`')">remove</button></p>
+                <p class="card-text">
+                <button type="button" class="btn btn-info" onclick = "remove_part('`+id+`')">
+                remove</button>
+                </p>
             </div>
             </div>
             </div>
@@ -130,61 +113,41 @@ function create_card(json){
 
 }
 
-
-function create_card2(json){
-
-    var val;
-
-    for(x in addedparts2){
-        if(addedparts2[x][0]==json.designID){
-            val = addedparts2[x];
-        }
+function calculate_parts(){
+    var num = 0;
+    for(p in addedparts){
+        num+=parseInt(addedparts[p]);
     }
-    console.log(val);
+    return num;
+}
 
-    $("#write").append(`
-        <div id="`+json.designID+`" class="card">
-        <div class='row align-items-center'>
-            <div class="card-body">
-            
-            <div class = "col-sm-1">
-                <p class="card-text">`+json.designID+`</p>
-            </div>
-            <div class = "col-sm-1 ">
-                <p class="card-text">`+json.name+`</p>
-            </div>
-            <div class = "col-sm-3 ">
-                <p class="card-text">`+json.description+`</p>
-            </div>
-            <div class = "col-sm-1">
-                <p class="card-text">`+json.Type+`</p>
-            </div>
-            <div class = "col-sm-3">
-                <p class="card-text"><img src="`+json.image+`" class="img-thumbnail" alt="Cinque Terre"></a></p>
-            </div>
-            <div class = "col-sm-1">
-                <p class="card-text">`+json.Total_cost+`</p>
-            </div>
-            <div class = "col-sm-1">
-                <p class="card-text">`+val[1]+`</p>
-            </div>
-            <div class = "col-sm-1">
-                <p class="card-text"><button type="button" class="btn btn-info" onclick = "remove_part2('`+val[0]+`')">remove</button></p>
-            </div>
-            </div>
-            </div>
-        </div>`
-    );
+function calculate_submodules(){
+    var num=0;
+    for(s in addedparts2){
+        num+=parseInt(addedparts2[s]);
+    }
+    return num;
+}
 
+function cal_total_cost(dfee, afee){
+
+    var total = 0;
+    total += dfee+afee;
+
+    for(x in addedparts){
+        total+= parseInt(addedparts[x])*parseInt(partcost[x]);
+    }
+    for(x in addedparts2){
+        total+=parseInt(addedparts2[x])*parseInt(modulecost[x]);
+    }
+
+    return total;
 }
 
 
 $(document).ready(function(){
     var nameList = [];
     var nameList2 = [];
-    
-
-
     
     var csrftoken = getCookie('csrftoken');
     function csrfSafeMethod(method) {
@@ -232,24 +195,16 @@ $(document).ready(function(){
         var id = $("#name_search_tags").val();
 
         if (id.length !=0 && quant.length!=0){
-
-            var value = [id,quant];
-
-            
-
-            if(checkifpresent(id)){
-                addedparts.push(value);
-
-                $.getJSON("bon/part_detail/"+value[0]+"/?format=json", function (json){
-
+            if(!(id in addedparts)){
+                addedparts[id]=quant;
+                $.getJSON("bon/part_detail/"+id+"/?format=json", function (json){
+                    partcost[id]=json.cost;
                     create_card(json);
-
                 });
             }
             else{
                 alert("part already present");
             }
-            
         }
         else{
             alert('you have Either missed the PartID or the quantity');
@@ -263,17 +218,13 @@ $(document).ready(function(){
 
         if (id2.length !=0 && quant2.length!=0){
 
-            var value2 = [id2,quant2];
+            if(!(id2 in addedparts2)){
+                addedparts2[id2]=quant2;
 
-
-
-            if(checkifpresent2(id2)){
-                addedparts2.push(value2);
-
-                $.getJSON("bon/module_detail/"+value2[0]+"/?format=json", function (json){
+                $.getJSON("bon/module_detail/"+id2+"/?format=json", function (json){
                     console.log(json);
-                    create_card2(json);
-
+                    modulecost[id2] = json.Total_cost;
+                    create_card(json);
                 });
             }
             else{
@@ -289,6 +240,21 @@ $(document).ready(function(){
     $('#test').on('click', function(){
 
         var designID = $('#designID').val();
+        var nm = $('#name').val();
+        var des = $('#description').val();
+        var ty = $('#type').val();
+        var img = $('#myfile')[0].files[0];
+        var inv = 1;
+        var dfee = parseInt($('#design_fee').val());
+        var afee = parseInt($('#assembly_fee').val());
+        var nofparts = calculate_parts();
+        var nofsub = calculate_submodules();
+        var tcost = cal_total_cost(dfee,afee);
+
+        console.log(img);
+        console.log(nofparts);
+        console.log(nofsub);
+        console.log(tcost);
         console.log(designID);
 
         if(designID.length!=0){
@@ -298,45 +264,101 @@ $(document).ready(function(){
                     alert("Give a unique design ID");
                 }
                 else{
-                    
+                    var newform = new FormData();
+                    newform.append("designID", designID);
+                    newform.append("name",nm);
+                    newform.append("description",des);
+                    newform.append("Type",ty);
+                    if(img!=undefined){
+                        newform.append("image",img);
+                    }
+                    else{
+                        console.log("uee");
+                    }
+                    newform.append("inventory",inv);
+                    newform.append("design_fee",dfee);
+                    newform.append("assembly_fee",afee);
+                    newform.append("parts",nofparts);
+                    newform.append("Sub_modules",nofsub);
+                    newform.append("Total_cost",tcost);
+
+                    console.log(newform);
+
+                    $.ajax({
+                        type: "POST",
+                        url: "bon/modules/",
+                        data: newform,
+                        contentType: false,
+                        processData: false,
+                        success: function(data){
+                            console.log(data);
+                        },
+                        error: function(XMLHttpRequest, textStatus, errorThrown) {
+                            console.log("some error " + String(errorThrown) + String(textStatus) + String(XMLHttpRequest.responseText));
+                        }
+                    });
+                
+                    for( x in addedparts){
+                        console.log(x);
+                        
+                        var pay= new FormData();
+                        pay.append("designID", designID);
+                        pay.append("PartID", x);
+                        pay.append("quantity", addedparts[x]);
+
+                        $.ajax({
+                            type: "POST",
+                            url: "bon/sub_part/",
+                            data: pay,
+                            contentType: false,
+                            processData: false,
+                            success: function(data){
+                                console.log(data);
+                            },
+                            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                console.log("some error " + String(errorThrown) + String(textStatus) + String(XMLHttpRequest.responseText));
+                            }
+                        });
+                    }
+                    console.log("Hereee",addedparts2);
+                    for( s in addedparts2){
+                        console.log(x);
+            
+                        var data1 = {};
+                        data1["designID"] = designID;
+                        data1["subID"] = s;
+                        data1["quantity"] = addedparts2[s];
+                        console.log(data1);
+            
+                        var val1 = JSON.stringify(data1, null, '\t');
+
+                        var payload = new FormData();
+                        payload.append("designID",designID);
+                        payload.append("subID", s);
+                        payload.append("quantity",addedparts2[s]);
+
+            
+                        $.ajax({
+                            type: "POST",
+                            url: "bon/sub_module/",
+                            data: payload,
+                            contentType: false,
+                            processData: false,
+                            success: function(data){
+                                console.log(data);
+                            },
+                            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                console.log("some error " + String(errorThrown) + String(textStatus) + String(XMLHttpRequest.responseText));
+                            }
+                        });
+                    }
                 }
             });
-
-            for( x in addedparts){
-                console.log(addedparts[x]);
-    
-                
-                var data1 = {};
-                data1["designID"] = designID;
-                data1["PartID"] = addedparts[x];
-                data1["quantity"] = 3;
-                console.log(data1);
-    
-                var val1 = JSON.stringify(data1, null, '\t');
-    
-                $.ajax({
-                    type: "POST",
-                    url: "bon/sub_part/",
-                    data: val1,
-                    contentType: "application/json; charset=utf-8",
-                    success: function(data){
-                        alert(data);
-                    },
-                    error: function(XMLHttpRequest, textStatus, errorThrown) {
-                        alert("some error " + String(errorThrown) + String(textStatus) + String(XMLHttpRequest.responseText));
-                    }
-                });
-    
-            }
-
         }
         else{
             alert("enter the design ID");
         }
-        
         });
-
-
 });
 
 
