@@ -77,32 +77,32 @@ function create_card(json){
     $("#write").append(`
         <div id="`+id+`" class="card">
         <div class='row align-items-center'>
-            <div class="card-body">
+            <div class="card-body ">
             
-            <div class = "col-sm-1">
+            <div class = "col-sm-1 text-center">
                 <p class="card-text">`+id+`</p>
             </div>
-            <div class = "col-sm-1 ">
+            <div class = "col-sm-1 text-center">
                 <p class="card-text">`+nm+`</p>
             </div>
-            <div class = "col-sm-3 ">
+            <div class = "col-sm-3 text-center">
                 <p class="card-text">`+des+`</p>
             </div>
-            <div class = "col-sm-1">
+            <div class = "col-sm-1 text-center">
                 <p class="card-text">`+ty+`</p>
             </div>
-            <div class = "col-sm-3">
+            <div class = "col-sm-3 text-center">
                 <p class="card-text"><img src="`+image+`" class="img-thumbnail" alt="Cinque Terre"></a></p>
             </div>
-            <div class = "col-sm-1">
+            <div class = "col-sm-1 text-center">
                 <p class="card-text">`+cost+`</p>
             </div>
-            <div class = "col-sm-1">
+            <div class = "col-sm-1 text-center">
                 <p class="card-text">`+quant+`</p>
             </div>
-            <div class = "col-sm-1">
-                <p class="card-text">
-                <button type="button" class="btn btn-info" onclick = "remove_part('`+id+`')">
+            <div class = "col-sm-1 center-block">
+                <p class="card-text ">
+                <button type="button" class="btn btn-danger" onclick = "remove_part('`+id+`')">
                 remove</button>
                 </p>
             </div>
@@ -162,7 +162,7 @@ $(document).ready(function(){
         }
     });
 
-    $.getJSON("bon/parts/?format=json", function (json) {
+    $.getJSON("http://localhost:8000/bon/parts/?format=json", function (json) {
         for (x in json){
             console.log(json[x].image);
         }
@@ -177,7 +177,7 @@ $(document).ready(function(){
     
     $("#name_search_tags").autocomplete({source: nameList});
 
-        $.getJSON("bon/modules/?format=json", function (json) {
+        $.getJSON("http://localhost:8000/bon/modules/?format=json", function (json) {
     
             $.each(json, function(key, val) {
                 var design_id = val.designID;
@@ -197,7 +197,7 @@ $(document).ready(function(){
         if (id.length !=0 && quant.length!=0){
             if(!(id in addedparts)){
                 addedparts[id]=quant;
-                $.getJSON("bon/part_detail/"+id+"/?format=json", function (json){
+                $.getJSON("http://localhost:8000/bon/part_detail/"+id+"/?format=json", function (json){
                     partcost[id]=json.cost;
                     create_card(json);
                 });
@@ -221,7 +221,7 @@ $(document).ready(function(){
             if(!(id2 in addedparts2)){
                 addedparts2[id2]=quant2;
 
-                $.getJSON("bon/module_detail/"+id2+"/?format=json", function (json){
+                $.getJSON("http://localhost:8000/bon/module_detail/"+id2+"/?format=json", function (json){
                     console.log(json);
                     modulecost[id2] = json.Total_cost;
                     create_card(json);
@@ -259,7 +259,7 @@ $(document).ready(function(){
 
         if(designID.length!=0){
             
-            urlExists('bon/module_detail/'+designID+'/?format=json', function(exists){
+            urlExists('http://localhost:8000/bon/module_detail/'+designID+'/?format=json', function(exists){
                 if(exists){
                     alert("Give a unique design ID");
                 }
@@ -286,7 +286,7 @@ $(document).ready(function(){
 
                     $.ajax({
                         type: "POST",
-                        url: "bon/modules/",
+                        url: "http://localhost:8000/bon/modules/",
                         data: newform,
                         contentType: false,
                         processData: false,
@@ -308,7 +308,7 @@ $(document).ready(function(){
 
                         $.ajax({
                             type: "POST",
-                            url: "bon/sub_part/",
+                            url: "http://localhost:8000/bon/sub_part/",
                             data: pay,
                             contentType: false,
                             processData: false,
@@ -340,7 +340,7 @@ $(document).ready(function(){
             
                         $.ajax({
                             type: "POST",
-                            url: "bon/sub_module/",
+                            url: "http://localhost:8000/bon/sub_module/",
                             data: payload,
                             contentType: false,
                             processData: false,

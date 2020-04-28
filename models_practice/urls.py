@@ -21,6 +21,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('', views.home, name='frontend_home'),
+    path('create_design/', views.create_design, name='create_design'),
     path('admin/', admin.site.urls),
     path('bon/', include('bon.urls'))
 ]
