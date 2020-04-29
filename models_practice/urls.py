@@ -22,6 +22,9 @@ from django.conf import settings
 urlpatterns = [
     path('', views.home, name='frontend_home'),
     path('create_design/', views.create_design, name='create_design'),
+    path('view_parts/', views.parts_view, name='view_parts'),
+    path('create_part/', views.part_create, name='create_part'),
+    path('part_detail/<str:id>', views.part_detail, name='part_detail'),
     path('admin/', admin.site.urls),
     path('bon/', include('bon.urls'))
 ]

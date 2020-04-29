@@ -5,6 +5,7 @@ var addedparts2 = {};
 var partcost = {};
 var modulecost = {};
 
+
 function urlExists(url, callback){
     $.ajax({
       type: 'HEAD',
@@ -78,7 +79,6 @@ function create_card(json){
         <div id="`+id+`" class="card">
         <div class='row align-items-center'>
             <div class="card-body ">
-            
             <div class = "col-sm-1 text-center">
                 <p class="card-text">`+id+`</p>
             </div>
@@ -163,9 +163,6 @@ $(document).ready(function(){
     });
 
     $.getJSON("http://localhost:8000/bon/parts/?format=json", function (json) {
-        for (x in json){
-            console.log(json[x].image);
-        }
         
         $.each(json, function(key, val) {
             var part_id = val.PartID;
@@ -251,11 +248,7 @@ $(document).ready(function(){
         var nofsub = calculate_submodules();
         var tcost = cal_total_cost(dfee,afee);
 
-        console.log(img);
-        console.log(nofparts);
-        console.log(nofsub);
-        console.log(tcost);
-        console.log(designID);
+        var flag = false;
 
         if(designID.length!=0){
             
@@ -288,13 +281,15 @@ $(document).ready(function(){
                         type: "POST",
                         url: "http://localhost:8000/bon/modules/",
                         data: newform,
+                        async: false,
+                        timeout: 30000,
                         contentType: false,
                         processData: false,
                         success: function(data){
                             console.log(data);
                         },
                         error: function(XMLHttpRequest, textStatus, errorThrown) {
-                            console.log("some error " + String(errorThrown) + String(textStatus) + String(XMLHttpRequest.responseText));
+                            alert(String(textStatus) + String(XMLHttpRequest.responseText));
                         }
                     });
                 
@@ -313,31 +308,23 @@ $(document).ready(function(){
                             contentType: false,
                             processData: false,
                             success: function(data){
+                                flag = true
                                 console.log(data);
                             },
                             error: function(XMLHttpRequest, textStatus, errorThrown) {
-                                console.log("some error " + String(errorThrown) + String(textStatus) + String(XMLHttpRequest.responseText));
+                                flag= false;
+                                alert("some error " + String(errorThrown) + String(textStatus) + String(XMLHttpRequest.responseText));
                             }
                         });
                     }
                     console.log("Hereee",addedparts2);
                     for( s in addedparts2){
-                        console.log(x);
-            
-                        var data1 = {};
-                        data1["designID"] = designID;
-                        data1["subID"] = s;
-                        data1["quantity"] = addedparts2[s];
-                        console.log(data1);
-            
-                        var val1 = JSON.stringify(data1, null, '\t');
-
+                        
                         var payload = new FormData();
                         payload.append("designID",designID);
                         payload.append("subID", s);
                         payload.append("quantity",addedparts2[s]);
 
-            
                         $.ajax({
                             type: "POST",
                             url: "http://localhost:8000/bon/sub_module/",
@@ -345,13 +332,27 @@ $(document).ready(function(){
                             contentType: false,
                             processData: false,
                             success: function(data){
-                                console.log(data);
+                                flag = true;
+                                console.log(data,flag);
+
                             },
                             error: function(XMLHttpRequest, textStatus, errorThrown) {
-                                console.log("some error " + String(errorThrown) + String(textStatus) + String(XMLHttpRequest.responseText));
+                                alert("some error " + String(errorThrown) + String(textStatus) + String(XMLHttpRequest.responseText));
+                                flag = false;
                             }
                         });
-                    }
+                        }
+
+                        
+
+                        $(document).ajaxStop(function(){
+                            console.log("this should be last",flag);
+                            if(flag){
+                                window.location.replace("/");
+                            }
+
+                        });
+                        
                 }
             });
         }

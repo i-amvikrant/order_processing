@@ -1,64 +1,62 @@
 {% extends "frontend/base.html" %}
 {% load static %}
 {% block content%}
-    <div class="row"> 
-        <div class = "col-sm-3">
-          <div class = "affix">
-            <input id="designID" type="text" class="form-control" placeholder="Design Id .."><br>
-            <div class="dropdown">
-                <input id="name_search_tags" type="text" class="form-control" placeholder="search for parts"><br>
-            </div>
-            <input type="number" id="quantity"  name="q1" min="1" max='100' placeholder="quantity">
-            <button id='b1' class="btn btn-primary" name = 'click'>add part</button><br><br>
-            <div class="dropdown">
-                <input id="name_search_tags2" type="text" class="form-control" placeholder="Search for sub-modules"><br>
-            </div>
-            <div>
-              <input type="number" id="quantity2"  name="q2" min="1" max='100' placeholder="quantity">
-              <button id='b2' class="btn btn-primary" name = 'click2'>add module</button>
-            </div><br>
-            <input id="name" type="text" class="form-control" placeholder="Enter module name.." required><br>
-            <textarea name="description" class="form-control" placeholder="Enter the Description" ></textarea><br>
-            <input id="type" type="text" class="form-control" placeholder="Enter type" required><br>
-            <input id="design_fee" type="text" class="form-control" placeholder="Design fee (in rupees)" required><br>
-            <input id="assembly_fee" type="text" class="form-control" placeholder="Per assembly fee (in rupees)" required><br>
-            <input type="file"  id="myfile" name="filename"><br>
-            <button id='test' class="btn btn-primary form-control"  name='post'>post</button>
-          </div>
-            
+    <div class = "col-sm-3">
+      <div class = "affix">
+        <input id="designID" type="text" class="form-control" placeholder="Design Id .."><br>
+        <div class="dropdown">
+            <input id="name_search_tags" type="text" class="form-control" placeholder="search for parts"><br>
         </div>
-        <div class = "col-sm-9" id = "write">
-            <div class="card text-center font-weight-bold">
-                <div class="card-body">
-                  
-                  <div class = "col-sm-1 ">
-                    <p class="card-text">ID</p>
-                  </div>
-                  <div class = "col-sm-1 ">
-                    <p class="card-text">Name</p>
-                  </div>
-                  <div class = "col-sm-3 ">
-                    <p class="card-text ">Description</p>
-                  </div>
-                  <div class = "col-sm-1 ">
-                    <p class="card-text">type</p>
-                  </div>
-                  <div class = "col-sm-3 ">
-                    <p class="card-text">Image</p>
-                  </div>
-                  <div class = "col-sm-1 ">
-                    <p class="card-text">cost(per)</p>
-                  </div>
-                  <div class = "col-sm-1 ">
-                    <p class="card-text">quantity</p>
-                  </div>
-                  <div class = "col-sm-1 ">
-                    <p class="card-text">remove</p>
-                  </div>
-                </div>
+        <input type="number" id="quantity"  name="q1" min="1" max='100' placeholder="quantity">
+        <button id='b1' class="btn btn-primary" name = 'click'>add part</button><br><br>
+        <div class="dropdown">
+            <input id="name_search_tags2" type="text" class="form-control" placeholder="Search for sub-modules"><br>
+        </div>
+        <div>
+          <input type="number" id="quantity2"  name="q2" min="1" max='100' placeholder="quantity">
+          <button id='b2' class="btn btn-primary" name = 'click2'>add module</button>
+        </div><br>
+        <input id="name" type="text" class="form-control" placeholder="Enter module name.." required><br>
+        <textarea name="description" class="form-control" placeholder="Enter the Description" ></textarea><br>
+        <input id="type" type="text" class="form-control" placeholder="Enter type" required><br>
+        <input id="design_fee" type="text" class="form-control" placeholder="Design fee (in rupees)" required><br>
+        <input id="assembly_fee" type="text" class="form-control" placeholder="Per assembly fee (in rupees)" required><br>
+        <input type="file"  id="myfile" name="filename"><br>
+        <button id='test' class="btn btn-primary form-control"  name='post'>post</button>
+      </div>
+    </div>
+
+
+    <div class = "col-sm-9" id = "write">
+        <div class="card text-center font-weight-bold">
+            <div class="card-body">
+              
+              <div class = "col-sm-1 ">
+                <p class="card-text">ID</p>
               </div>
-              <hr>
-        </div>
+              <div class = "col-sm-1 ">
+                <p class="card-text">Name</p>
+              </div>
+              <div class = "col-sm-3 ">
+                <p class="card-text ">Description</p>
+              </div>
+              <div class = "col-sm-1 ">
+                <p class="card-text">type</p>
+              </div>
+              <div class = "col-sm-3 ">
+                <p class="card-text">Image</p>
+              </div>
+              <div class = "col-sm-1 ">
+                <p class="card-text">cost(per)</p>
+              </div>
+              <div class = "col-sm-1 ">
+                <p class="card-text">quantity</p>
+              </div>
+              <div class = "col-sm-1 ">
+                <p class="card-text">remove</p>
+              </div>
+            </div>
+          </div>
     </div>
     <script src = "{% static 'frontend/script1.js'%}"></script>        
 {% endblock content %}

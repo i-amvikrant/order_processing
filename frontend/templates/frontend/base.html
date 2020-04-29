@@ -20,9 +20,9 @@
             <a class="navbar-brand" href="{% url 'frontend_home' %}">Order Processing System</a>
           </div>
           <ul class="nav navbar-nav">
-            <li class="active"><a href="{% url 'create_design' %}">Create design</a></li>
+            <li><a href="{% url 'create_design' %}">Create design</a></li>
             <li><a href="#">Designs</a></li>
-            <li><a href="#">Parts</a></li>
+            <li><a href="{% url 'view_parts' %}">Parts</a></li>
             <li><a href="#">Vendor</a></li>
           </ul>
         </div>
@@ -35,7 +35,18 @@
         </div>
     </div>
   </div>
-    
+  <script>
+    $(document).ready(function(){
+      $(function() {
+        $("li").click(function() {
+            // remove classes from all
+            $("li").removeClass("active");
+            // add class to the one we clicked
+            $(this).addClass("active");
+        });
+      });
+    });
+  </script>
 
 
 </body>
