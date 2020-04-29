@@ -18,12 +18,9 @@ def parts_list(request, format=None):
         return Response(serializer.data)
 '''
 
-class parts_list(APIView):
-
-    def get(self, request, format=None):
-        pl = parts.objects.all()
-        serializer = parts_serializer(pl, many=True)
-        return Response(serializer.data)
+class parts_list(generics.ListCreateAPIView):
+    queryset = parts.objects.all()
+    serializer_class = parts_serializer
 
 
 class modules_list(generics.ListCreateAPIView):
