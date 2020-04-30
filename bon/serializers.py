@@ -8,6 +8,12 @@ class parts_serializer(serializers.ModelSerializer):
         model = parts
         fields = '__all__'
 
+class parts_autocomplete(serializers.ModelSerializer):
+
+    class Meta:
+        model = parts
+        fields = ['PartID']
+
 
 class modules_serializer(serializers.ModelSerializer):
 

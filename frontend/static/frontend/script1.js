@@ -76,9 +76,9 @@ function create_card(json){
     }
 
     $("#write").append(`
-        <div id="`+id+`" class="card">
+        <div id="`+id+`" class="panel panel-default">
         <div class='row align-items-center'>
-            <div class="card-body ">
+            <div class="panel-body ">
             <div class = "col-sm-1 text-center">
                 <p class="card-text">`+id+`</p>
             </div>
@@ -162,7 +162,7 @@ $(document).ready(function(){
         }
     });
 
-    $.getJSON("http://localhost:8000/bon/parts/?format=json", function (json) {
+    $.getJSON("http://localhost:8000/bon/parts_autocomplete/?format=json", function (json) {
         
         $.each(json, function(key, val) {
             var part_id = val.PartID;
@@ -190,8 +190,9 @@ $(document).ready(function(){
 
         var quant = $('#quantity').val();
         var id = $("#name_search_tags").val();
+        var index = nameList.indexOf(id);
 
-        if (id.length !=0 && quant.length!=0){
+        if (id.length !=0 && quant.length!=0 && index!=-1){
             if(!(id in addedparts)){
                 addedparts[id]=quant;
                 $.getJSON("http://localhost:8000/bon/part_detail/"+id+"/?format=json", function (json){
@@ -203,6 +204,9 @@ $(document).ready(function(){
                 alert("part already present");
             }
         }
+        else if(index==-1){
+            alert("Part not present in the database");
+        }
         else{
             alert('you have Either missed the PartID or the quantity');
         }
@@ -212,8 +216,9 @@ $(document).ready(function(){
 
         var quant2 = $('#quantity2').val();
         var id2 = $("#name_search_tags2").val();
+        var index2 = nameList2.indexOf(id2);
 
-        if (id2.length !=0 && quant2.length!=0){
+        if (id2.length !=0 && quant2.length!=0 && index2!=-1){
 
             if(!(id2 in addedparts2)){
                 addedparts2[id2]=quant2;
@@ -226,8 +231,10 @@ $(document).ready(function(){
             }
             else{
                 alert("module already present");
-            }
-            
+            } 
+        }
+        else if(index2==-1){
+            alert("module not present in the database");
         }
         else{
             alert('you have Either missed the moduleID or the quantity');

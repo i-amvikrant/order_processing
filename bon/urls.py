@@ -7,6 +7,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 print(type(views.module_detail))
 
 urlpatterns = [
+    path('parts_autocomplete/',views.parts_autocomplete_api.as_view()),
     path('parts/', views.parts_list.as_view()),
     path('modules/', views.modules_list.as_view()),
     path('part_detail/<str:pk>/', views.part_detail.as_view()),

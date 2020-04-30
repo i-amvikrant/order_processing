@@ -5,8 +5,16 @@ from django.http import Http404
 from rest_framework.response import Response
 from rest_framework.parsers import JSONParser
 from bon.models import parts, modules, part_list, sub_module_list
-from .serializers import parts_serializer, modules_serializer, sub_part_list_serializer, sub_module_list_serializer
+from .serializers import (
+    parts_serializer, 
+    modules_serializer, 
+    sub_part_list_serializer, 
+    sub_module_list_serializer,
+    parts_autocomplete)
+
 from rest_framework import generics
+
+from rest_framework.pagination import LimitOffsetPagination
 
 # Create your views here.
 '''
@@ -21,6 +29,11 @@ def parts_list(request, format=None):
 class parts_list(generics.ListCreateAPIView):
     queryset = parts.objects.all()
     serializer_class = parts_serializer
+    pagination_class = LimitOffsetPagination
+
+class parts_autocomplete_api(generics.ListAPIView):
+    queryset = parts.objects.only('PartID')
+    serializer_class = parts_autocomplete
 
 
 class modules_list(generics.ListCreateAPIView):
@@ -61,3 +74,24 @@ class sub_module(generics.ListCreateAPIView):
         if designID is not None:
             queryset = queryset.filter(designID__exact=designID)
         return queryset
+
+
+'''
+class PassengerList(generics.ListCreateAPIView):
+    model = Passenger
+    serializer_class = PassengerSerializer
+
+    # Show all of the PASSENGERS in particular WORKSPACE
+    # or all of the PASSENGERS in particular AIRLINE
+    def get_queryset(self):
+        queryset = Passenger.objects.all()
+        workspace = self.request.query_params.get('workspace')
+        airline = self.request.query_params.get('airline')
+
+        if workspace:
+            queryset = queryset.filter(workspace_id=workspace)
+        elif airline:
+            queryset = queryset.filter(workspace__airline_id=airline)
+
+        return queryset
+'''
