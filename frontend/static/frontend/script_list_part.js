@@ -27,7 +27,7 @@ function display_part(data){
                 </div>
                 <div class="col-sm-4">
                     <p>cost</p>
-                    <h3 style="padding: 0px; margin: 0px;">$`+data.cost+`</h2>
+                    <h3 style="padding: 0px; margin: 0px;">₹`+data.cost+`</h2>
                 </div>
                 </div>
                 <div class='col-sm-2'>

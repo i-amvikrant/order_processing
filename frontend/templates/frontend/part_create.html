@@ -1,10 +1,10 @@
 {% extends "frontend/base.html" %}
+{% load static %}
 {% block content%}
 <div class='container-fluid' style="max-width: 50%">
     <h3>Add a New Part</h3><br>
-    <form action="http://localhost:8000/bon/parts/" method="POST" enctype="multipart/form-data" class="form-horizontal" novalidate="">
+    <form class="form-horizontal" action="#">
         <fieldset>
-          <input type="hidden" name="csrfmiddlewaretoken" value="b5lI5tfKw6Adh5QHHwsXAqpyprczfDKOk8lCFkxQu45ZV6HarBZIAUw4Wih1cAsF">
                 <div class="form-group ">
                     <label class="col-sm-2 control-label ">PartID</label>
                     <div class="col-sm-10">
@@ -76,10 +76,11 @@
                     </div>
                 </div>
                 <div class="form-actions">
-                    <button class="btn btn-primary js-tooltip" title="" data-original-title="Make a POST request on the Parts List resource">POST</button>
+                    <button class="btn btn-primary" id="submit_part" >CREATE PART</button>
                 </div>
             </fieldset>
       </form>
+      <br><br><br><br>
 </div>
-
+<script src = "{% static 'frontend/create_part.js'%}"></script>  
 {% endblock content %}
