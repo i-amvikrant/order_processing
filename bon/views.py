@@ -4,13 +4,17 @@ from rest_framework import status
 from django.http import Http404
 from rest_framework.response import Response
 from rest_framework.parsers import JSONParser
-from bon.models import parts, modules, part_list, sub_module_list
+from bon.models import (
+    parts, modules, part_list, 
+    sub_module_list, vendor)
 from .serializers import (
     parts_serializer, 
     modules_serializer, 
     sub_part_list_serializer, 
     sub_module_list_serializer,
-    parts_autocomplete)
+    parts_autocomplete,
+    modules_autocomplete,
+    vendor_serializer)
 
 from rest_framework import generics
 
@@ -39,6 +43,11 @@ class parts_autocomplete_api(generics.ListAPIView):
 class modules_list(generics.ListCreateAPIView):
     queryset = modules.objects.all()
     serializer_class = modules_serializer
+    pagination_class = LimitOffsetPagination
+
+class modules_autocomplete_api(generics.ListAPIView):
+    queryset = modules.objects.only('designID')
+    serializer_class = modules_autocomplete
 
 class module_detail(generics.RetrieveUpdateDestroyAPIView):
     queryset = modules.objects.all()
@@ -60,8 +69,11 @@ class sub_part(generics.ListCreateAPIView):
     def get_queryset(self):
         queryset = part_list.objects.all()
         designID = self.request.query_params.get('designID',None)
+        PartID = self.request.query_params.get('PartID',None)
         if designID is not None:
             queryset = queryset.filter(designID__exact=designID)
+        if PartID is not None:
+            queryset = queryset.filter(PartID__exact=PartID)
         return queryset
 
 
@@ -70,28 +82,17 @@ class sub_module(generics.ListCreateAPIView):
 
     def get_queryset(self):
         queryset = sub_module_list.objects.all()
-        designID = self.request.query_params.get('design',None)
+        designID = self.request.query_params.get('designID',None)
+        subID = self.request.query_params.get('subID',None)
         if designID is not None:
             queryset = queryset.filter(designID__exact=designID)
+        if subID is not None:
+            queryset = queryset.filter(subID__exact=subID)
         return queryset
 
+class vendor_list(generics.ListCreateAPIView):
+    serializer_class = vendor_serializer
 
-'''
-class PassengerList(generics.ListCreateAPIView):
-    model = Passenger
-    serializer_class = PassengerSerializer
-
-    # Show all of the PASSENGERS in particular WORKSPACE
-    # or all of the PASSENGERS in particular AIRLINE
     def get_queryset(self):
-        queryset = Passenger.objects.all()
-        workspace = self.request.query_params.get('workspace')
-        airline = self.request.query_params.get('airline')
-
-        if workspace:
-            queryset = queryset.filter(workspace_id=workspace)
-        elif airline:
-            queryset = queryset.filter(workspace__airline_id=airline)
-
+        queryset = vendor.objects.all()
         return queryset
-'''

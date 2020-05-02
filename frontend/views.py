@@ -19,3 +19,10 @@ def part_detail(request, id):
 def part_create(request):
     return render(request, 'frontend/part_create.html', {})
 
+def module_view(request):
+    return render(request, 'frontend/view_modules.html', {})
+
+def module_detail(request, id):
+    context = requests.get('http://localhost:8000/bon/module_detail/'+id+'/?format=json').json()
+    return render(request, 'frontend/module_detail.html',context)
+

@@ -1,4 +1,9 @@
-from .models import parts, modules, part_list, vendor, sub_module_list, orders, customer, product_list
+from .models import (
+    parts, modules, part_list, 
+    vendor, sub_module_list, 
+    orders, customer, product_list)
+
+
 from rest_framework import serializers
 
 
@@ -21,6 +26,12 @@ class modules_serializer(serializers.ModelSerializer):
         model = modules
         fields = '__all__'
 
+class modules_autocomplete(serializers.ModelSerializer):
+
+    class Meta:
+        model = modules
+        fields = ['designID']
+
 
 class sub_part_list_serializer(serializers.ModelSerializer):
 
@@ -33,4 +44,11 @@ class sub_module_list_serializer(serializers.ModelSerializer):
     class Meta:
         model = sub_module_list
         fields = ('designID','subID','quantity')
+
+
+class vendor_serializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = vendor
+        fields = '__all__'
     

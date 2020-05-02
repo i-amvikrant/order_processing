@@ -29,6 +29,17 @@ $(document).ready(function(){
         }
     });
 
+    $.getJSON("http://localhost:8000/bon/vendors/?format=json", function (json) {
+        
+        $.each(json, function(key, val) {
+            var vendor_id = val.vendorID;
+            var name = val.name;
+            $('#vendorID').append(
+                '<option value="'+vendor_id+'">'+name+'</option>'
+            );
+            });
+    });
+
     $('form').submit(function(e){
 
       e.preventDefault();
@@ -46,7 +57,7 @@ $(document).ready(function(){
         processData: false,
         timeout: 30000,
         success: function(data){
-            console.log(data);
+            window.location.replace("/view_parts");
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
             alert(String(textStatus) + String(XMLHttpRequest.responseText));

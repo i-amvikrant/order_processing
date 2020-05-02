@@ -6,32 +6,32 @@
             <h2>{{name}}</h2>
         </div>
         <div class='col-sm-1 text-left'><br>
-            <button class="btn btn-danger" id="delete-part" >Delete</button>
+            <button class="btn btn-danger" id="delete-module" >Delete</button>
         </div> 
     </div>
     <div class='row'>
         <div class='col-sm-7'>
-            <br>
+            <br><br>
             <div>
-                <h5>Part ID : <span id='partID'>{{PartID}}</span></h5>
+                <h5>design ID : <span id='partID'>{{designID}}</span></h5>
             </div>
             <div>
                 <h5>Description : {{description}}</h5>
             </div>
             <div>
-                <h5>Part Type : {{partType}}</h5>
+                <h5>Part Type : {{Type}}</h5>
             </div>
             <div>
-                <h5>Weight : {{weight}}</h5>
+                <h5>Made on : {{made}}</h5>
             </div>
             <div>
-                <p><h5>Demensions : {{length}}x{{width}}x{{height}} </h5>(lxbxh)</p>
+                <h5>design fee :  ₹{{design_fee}}</h5>
             </div>
             <div>
-                <h5>Cost : ₹{{cost}}</h5>
+                <h5>Assembly fee : ₹{{assembly_fee}}</h5>
             </div>
             <div>
-                <h5>Vendor : {{vendorID}}</h5>
+                <h5>Total cost : ₹{{Total_cost}}</h5>
             </div>
             
         </div>
@@ -74,16 +74,16 @@
             }
         });
 
-        $('#delete-part').on('click', function(){
+        $('#delete-module').on('click', function(){
             
-            if(confirm("Do you want the delete this part")){
+            if(confirm("Do you want the delete this module")){
 
-                var del_url =  'http://localhost:8000/bon/part_detail/'+'{{PartID}}';
+                var del_url =  'http://localhost:8000/bon/module_detail/'+'{{designID}}';
                 $.ajax({
                     url: del_url,
                     type: 'DELETE',
                     success: function(result){
-                        window.location.replace("/view_parts");
+                        window.location.replace("/view_modules");
                     },
                     error: function(XMLHttpRequest, textStatus, errorThrown) {
                             alert(String(textStatus) + String(XMLHttpRequest.responseText));

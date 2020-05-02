@@ -7,14 +7,16 @@ from rest_framework.urlpatterns import format_suffix_patterns
 print(type(views.module_detail))
 
 urlpatterns = [
-    path('parts_autocomplete/',views.parts_autocomplete_api.as_view()),
-    path('parts/', views.parts_list.as_view()),
+    path('modules_autocomplete/',views.modules_autocomplete_api.as_view(), name='api_module_autocomplete'),
+    path('parts_autocomplete/',views.parts_autocomplete_api.as_view(), name='api_part_autocomplete'),
+    path('parts/', views.parts_list.as_view(), name='api_part_list'),
     path('modules/', views.modules_list.as_view()),
-    path('part_detail/<str:pk>/', views.part_detail.as_view()),
+    path('part_detail/<str:pk>/', views.part_detail.as_view(), name='api_part_detail'),
     path('module_detail/<str:pk>/', views.module_detail.as_view()),
     path('sub_part/', views.sub_part.as_view()),
     path('sub_module/', views.sub_module.as_view()),
-    path('part_create/', views.part_create.as_view())
+    path('part_create/', views.part_create.as_view()),
+    path('vendors/', views.vendor_list.as_view(), name='api_vendor_list')
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
