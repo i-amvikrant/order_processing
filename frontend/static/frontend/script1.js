@@ -113,37 +113,6 @@ function create_card(json){
 
 }
 
-function calculate_parts(){
-    var num = 0;
-    for(p in addedparts){
-        num+=parseInt(addedparts[p]);
-    }
-    return num;
-}
-
-function calculate_submodules(){
-    var num=0;
-    for(s in addedparts2){
-        num+=parseInt(addedparts2[s]);
-    }
-    return num;
-}
-
-function cal_total_cost(dfee, afee){
-
-    var total = 0;
-    total += dfee+afee;
-
-    for(x in addedparts){
-        total+= parseInt(addedparts[x])*parseInt(partcost[x]);
-    }
-    for(x in addedparts2){
-        total+=parseInt(addedparts2[x])*parseInt(modulecost[x]);
-    }
-
-    return total;
-}
-
 
 $(document).ready(function(){
     var nameList = [];
@@ -251,9 +220,6 @@ $(document).ready(function(){
         var inv = 1;
         var dfee = parseInt($('#design_fee').val());
         var afee = parseInt($('#assembly_fee').val());
-        var nofparts = calculate_parts();
-        var nofsub = calculate_submodules();
-        var tcost = cal_total_cost(dfee,afee);
 
         var flag = false;
 
@@ -278,9 +244,6 @@ $(document).ready(function(){
                     newform.append("inventory",inv);
                     newform.append("design_fee",dfee);
                     newform.append("assembly_fee",afee);
-                    newform.append("parts",nofparts);
-                    newform.append("Sub_modules",nofsub);
-                    newform.append("Total_cost",tcost);
 
                     console.log(newform);
 
@@ -306,7 +269,9 @@ $(document).ready(function(){
                         var pay= new FormData();
                         pay.append("designID", designID);
                         pay.append("PartID", x);
-                        pay.append("quantity", addedparts[x]);
+                        var part_quant = parseInt(addedparts[x]);
+                        console.log("The answer you need :",part_quant);
+                        pay.append("quantity", part_quant);
 
                         $.ajax({
                             type: "POST",
@@ -330,7 +295,8 @@ $(document).ready(function(){
                         var payload = new FormData();
                         payload.append("designID",designID);
                         payload.append("subID", s);
-                        payload.append("quantity",addedparts2[s]);
+                        var mod_count = parseInt(addedparts2[s]);
+                        payload.append("quantity",mod_count);
 
                         $.ajax({
                             type: "POST",

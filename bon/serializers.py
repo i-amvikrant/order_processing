@@ -51,4 +51,16 @@ class vendor_serializer(serializers.ModelSerializer):
     class Meta:
         model = vendor
         fields = '__all__'
+
+class create_order_serializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = orders
+        fields = ('orderID','customerID','due','status','status_description')
+
+class list_order_serializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = orders
+        fields = ('orderID','customerID','placed','due','due_date','status','status_description')
     

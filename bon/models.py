@@ -1,6 +1,7 @@
 from django.db import models
 from phone_field import PhoneField
 from PIL import Image
+from datetime import datetime,timedelta
 
 # Create your models here.
 class parts(models.Model):
@@ -95,12 +96,40 @@ class customer(models.Model):
         return self.name+", "+self.City
 
 
+'''class due_date_helper(models.Model):
+    due_date = models.DateTimeField()
+
+    @classmethod
+    def create(cls, placed, due):
+        due_date = cls(placed=placed)
+        due_days = timedelta(days=due)
+        due_date += due_days
+        return due_date'''
+
+
 class orders(models.Model):
+
+    STATUS_CHOICES = (
+        ('Active', 'Active'),
+        ('Scheduled','Scheduled'),
+        ('delayed','delayed'),
+        ('Deliveried','Deliveried'),
+        ('Shipped','Shipped')
+    )
 
     orderID = models.CharField(max_length=30, primary_key=True)
     placed = models.DateTimeField(auto_now=True)
     customerID = models.ForeignKey('customer', on_delete=models.CASCADE)
     due =  models.IntegerField()
+    status = models.CharField(max_length=10,choices=STATUS_CHOICES, default='Active')
+    status_description = models.TextField(default='None')
+    
+    def _get_due_date(self):
+        return self.placed+timedelta(days=self.due)
+
+    due_date = property(_get_due_date)
+
+
 
     def __str__(self):
         return self.orderID

@@ -16,7 +16,10 @@ urlpatterns = [
     path('sub_part/', views.sub_part.as_view()),
     path('sub_module/', views.sub_module.as_view()),
     path('part_create/', views.part_create.as_view()),
-    path('vendors/', views.vendor_list.as_view(), name='api_vendor_list')
+    path('vendors/', views.vendor_list.as_view(), name='api_vendor_list'),
+    path('order_create/',views.order_create.as_view(), name='api_create_order'),
+    path('orders/', views.orders_list.as_view(), name='api_list_order'),
+    path('order_detail/<str:pk>/', views.order_detail.as_view(), name='api_order_detail')
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
