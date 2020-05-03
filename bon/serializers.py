@@ -17,7 +17,7 @@ class parts_autocomplete(serializers.ModelSerializer):
 
     class Meta:
         model = parts
-        fields = ['PartID']
+        fields = ['PartID','name']
 
 
 class modules_serializer(serializers.ModelSerializer):
@@ -30,7 +30,7 @@ class modules_autocomplete(serializers.ModelSerializer):
 
     class Meta:
         model = modules
-        fields = ['designID']
+        fields = ['designID','name']
 
 
 class sub_part_list_serializer(serializers.ModelSerializer):
@@ -64,4 +64,33 @@ class list_order_serializer(serializers.ModelSerializer):
         model = orders
         fields = ('orderID','customerID','placed','due','due_date','status','status_description')
 
+
+class sub_part_view_serializer(serializers.ModelSerializer):
+    part_name = serializers.SerializerMethodField('get_name')
+    part_cost = serializers.SerializerMethodField('get_cost')
+
+    class Meta:
+        model = part_list
+        fields = ('designID','PartID','quantity','part_name','part_cost')
+
     
+
+    def get_name(self,obj):
+        return obj.PartID.name
+
+    def get_cost(self,obj):
+        return obj.PartID.cost
+
+class sub_module_view_serializer(serializers.ModelSerializer):
+    sub_name = serializers.SerializerMethodField('get_name')
+    sub_cost = serializers.SerializerMethodField('get_cost')
+
+    class Meta:
+        model = sub_module_list
+        fields = ('designID','subID','quantity','sub_name','sub_cost')
+
+    def get_name(self,obj):
+        return obj.subID.name
+
+    def get_cost(self,obj):
+        return obj.subID.Total_cost

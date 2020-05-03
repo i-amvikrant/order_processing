@@ -33,6 +33,13 @@
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
               <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Orders <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="{% url 'create_order' %}">Create Order</a></li>
+                  <li><a href="#">View Orders</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Design/Modules <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <li><a href="{% url 'create_design' %}">Create Design</a></li>
@@ -44,13 +51,6 @@
                 <ul class="dropdown-menu">
                   <li><a href="{% url 'view_parts' %}">View Parts</a></li>
                   <li><a href="{% url 'create_part' %}">Add Part</a></li>
-                </ul>
-              </li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Vendors <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                  <li><a href="#">View Vendors</a></li>
-                  <li><a href="#">Add Vendor</a></li>
                 </ul>
               </li>
             </ul>

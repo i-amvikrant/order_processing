@@ -27,6 +27,7 @@ urlpatterns = [
     path('create_part/', views.part_create, name='create_part'),
     path('part_detail/<str:id>', views.part_detail, name='part_detail'),
     path('module_detail/<str:id>', views.module_detail, name='module_detail'),
+    path('create_order/',views.order_create, name='create_order'),
     path('admin/', admin.site.urls),
     path('bon/', include('bon.urls'))
 ]

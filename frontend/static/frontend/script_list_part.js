@@ -48,25 +48,12 @@ $(document).ready(function(){
         
         $.each(json, function(key, val) {
             var part_id = val.PartID;
+            var part_name = val.name;
             nameList.push(part_id);
+            nameList.push(part_name);
             });
     });
     $("#PartID").autocomplete({source: nameList});
-
-    $('#part_search').on('click',function(){
-
-        var searchID = $('#PartID').val();
-        if(searchID.length==0){
-            alert("Fill the search box first");
-        }
-        else if(nameList.indexOf(searchID)==-1){
-            alert("No such part present");
-        }
-        else{
-            window.location.replace("/part_detail/"+searchID);
-        }
-
-    });
 
 
     var head = "http://localhost:8000/bon/parts/?limit=5&format=json";
@@ -78,6 +65,21 @@ $(document).ready(function(){
             display_part(val);
 
         });
+    });
+
+    $('#part_search').on('click',function(){
+        var keyword = $('#PartID').val();
+        console.log("http://localhost:8000/bon/parts/?search="+keyword+"&limit=5&format=json");
+        $('#partlist').empty();
+        head = "http://localhost:8000/bon/parts/?search="+keyword+"&limit=5&format=json";
+        $.getJSON(head,function(json){
+            console.log(json);
+            $.each(json.results,function(key,val){
+                next=json.next;
+                display_part(val);
+            });
+        });
+
     });
 
     $(window).scroll(function(){

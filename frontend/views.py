@@ -26,3 +26,6 @@ def module_detail(request, id):
     context = requests.get('http://localhost:8000/bon/module_detail/'+id+'/?format=json').json()
     return render(request, 'frontend/module_detail.html',context)
 
+def order_create(request):
+    return render(request, 'frontend/create_order.html',{})
+

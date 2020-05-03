@@ -18,37 +18,36 @@ function getCookie(name) {
     return cookieValue;
 }
 
-function add_to_table(json,quant){
+function add_to_table(json,index){
 
-    var id,name,cost,tableid,reroute,index;
-    name = json.name;
+    var id,name,cost,tableid,reroute,quantity;
 
     if("PartID" in json){
-        part_no +=1;
-        index = part_no
         id = json.PartID;
+        name = json.part_name;
         tableid = '#parts_table';
-        cost = json.cost;
+        cost = json.part_cost;
         reroute = 'part_detail';
+        quantity =json.quantity;
     }
     else{
-        module_no +=1;
-        index = module_no
-        id = json.designID;
+        id = json.subID;
+        name = json.sub_name;
         tableid = '#modules_table';
-        cost = json.Total_cost;
+        cost = json.sub_cost;
         reroute = 'module_detail';
+        quantity =json.quantity;
     }
 
     $(tableid).append(
         `
         <tr>
-            <th scope="row">`+index+`</th>
+            <th scope="row">`+(parseInt(index)+1)+`</th>
             <td><a href ="http://localhost:8000/`+reroute+`/`+id+`">
             `+id+`<a>
             </td>
             <td>`+name+`</td>
-            <td>`+quant+`</td>
+            <td>`+quantity+`</td>
             <td> ₹`+cost+`</td>
         </tr>
         `
@@ -76,18 +75,10 @@ $(document).ready(function(){
         $.ajax({
             url: 'http://localhost:8000/bon/sub_part/?designID='+designID,
             type: 'GET',
-            success: function(data){
-                for(x in data){
-                    $.ajax({
-                        url: 'http://localhost:8000/bon/part_detail/'+data[x].PartID,
-                        type:'GET',
-                        success: function(part){
-                            add_to_table(part,data[x].quantity);
-                        },
-                        error: function(XMLHttpRequest, textStatus, errorThrown) {
-                            alert(String(textStatus) + String(XMLHttpRequest.responseText));
-                        }
-                    })
+            success: function(data1){
+                for(x1 in data1){
+                    console.log(data1[x1]);
+                    add_to_table(data1[x1],x1);
                 }
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -100,18 +91,10 @@ $(document).ready(function(){
         $.ajax({
             url: 'http://localhost:8000/bon/sub_module/?designID='+designID,
             type: 'GET',
-            success: function(data){
-                for(x in data){
-                    $.ajax({
-                        url: 'http://localhost:8000/bon/module_detail/'+data[x].subID,
-                        type:'GET',
-                        success: function(mod){
-                            add_to_table(mod,data[x].quantity);
-                        },
-                        error: function(XMLHttpRequest, textStatus, errorThrown) {
-                            alert(String(textStatus) + String(XMLHttpRequest.responseText));
-                        }
-                    })
+            success: function(data2){
+                for(x2 in data2){
+                    console.log(data2[x2]);
+                    add_to_table(data2[x2],x2);
                 }
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {

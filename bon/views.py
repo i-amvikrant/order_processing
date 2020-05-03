@@ -3,6 +3,7 @@ from django.shortcuts import render
 from rest_framework import status
 from django.http import Http404
 from rest_framework.response import Response
+from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.parsers import JSONParser
 from bon.models import (
     parts, modules, part_list, 
@@ -16,7 +17,9 @@ from .serializers import (
     modules_autocomplete,
     vendor_serializer,
     create_order_serializer,
-    list_order_serializer)
+    list_order_serializer,
+    sub_part_view_serializer,
+    sub_module_view_serializer)
 
 from rest_framework import generics, status
 from rest_framework.pagination import LimitOffsetPagination
@@ -35,6 +38,10 @@ class parts_list(generics.ListCreateAPIView):
     queryset = parts.objects.all()
     serializer_class = parts_serializer
     pagination_class = LimitOffsetPagination
+    filter_backends = [SearchFilter,OrderingFilter]
+    search_fields = ['PartID','name','partType'] #we could have used '__' foreign key relation
+    ordering_fields = ['cost','name']
+
 
 class parts_autocomplete_api(generics.ListAPIView):
     queryset = parts.objects.only('PartID')
@@ -45,6 +52,9 @@ class modules_list(generics.ListCreateAPIView):
     queryset = modules.objects.all()
     serializer_class = modules_serializer
     pagination_class = LimitOffsetPagination
+    filter_backends = [SearchFilter,OrderingFilter]
+    search_fields = ['designID','name','Type']
+    ordering_fields = ['Total_cost','made']
 
     def perform_create(self, serializer):
         dfee = int(self.request.data['design_fee'])
@@ -74,7 +84,7 @@ class sub_part(APIView):
     def get(self, request, format=None):
 
         #ready queryset
-        queryset = part_list.objects.all()
+        queryset = part_list.objects.all()  #values('designID','PartID','quantity','PartID__name','PartID__cost')
         designID = request.query_params.get('designID',None)
         PartID = request.query_params.get('PartID',None)
         if designID is not None:
@@ -83,7 +93,7 @@ class sub_part(APIView):
             queryset = queryset.filter(PartID__exact=PartID)
         
         #serialize
-        serialized = sub_part_list_serializer(queryset, many=True)
+        serialized = sub_part_view_serializer(queryset, many=True)
         return Response(serialized.data)
 
     def post(self, request, format=None):
@@ -105,6 +115,7 @@ class sub_part(APIView):
         return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+
 class sub_module(APIView):
     
     def get(self, request, format=None):
@@ -119,7 +130,7 @@ class sub_module(APIView):
             queryset = queryset.filter(subID__exact=subID)
         
         #serialize
-        serialized = sub_module_list_serializer(queryset, many=True)
+        serialized = sub_module_view_serializer(queryset, many=True)
         return Response(serialized.data)
 
     def post(self, request, format=None):
