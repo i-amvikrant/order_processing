@@ -63,4 +63,5 @@ class list_order_serializer(serializers.ModelSerializer):
     class Meta:
         model = orders
         fields = ('orderID','customerID','placed','due','due_date','status','status_description')
+
     

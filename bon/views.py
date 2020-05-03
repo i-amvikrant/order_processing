@@ -180,3 +180,4 @@ class order_create(generics.CreateAPIView):
 class order_detail(generics.RetrieveUpdateDestroyAPIView):
     queryset = orders.objects.all()
     serializer_class = create_order_serializer
+

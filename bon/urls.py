@@ -4,8 +4,6 @@ from django.conf.urls.static import static
 from . import views
 from rest_framework.urlpatterns import format_suffix_patterns
 
-print(type(views.module_detail))
-
 urlpatterns = [
     path('modules_autocomplete/',views.modules_autocomplete_api.as_view(), name='api_module_autocomplete'),
     path('parts_autocomplete/',views.parts_autocomplete_api.as_view(), name='api_part_autocomplete'),
@@ -19,7 +17,7 @@ urlpatterns = [
     path('vendors/', views.vendor_list.as_view(), name='api_vendor_list'),
     path('order_create/',views.order_create.as_view(), name='api_create_order'),
     path('orders/', views.orders_list.as_view(), name='api_list_order'),
-    path('order_detail/<str:pk>/', views.order_detail.as_view(), name='api_order_detail')
+    path('order_detail/<str:pk>/', views.order_detail.as_view(), name='api_order_detail'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
