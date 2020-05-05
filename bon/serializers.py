@@ -62,7 +62,7 @@ class list_order_serializer(serializers.ModelSerializer):
 
     class Meta:
         model = orders
-        fields = ('orderID','customerID','placed','due','due_date','status','status_description')
+        fields = ('orderID','customerID','placed','due','due_date','status','status_description','Total_cost','product_count')
 
 
 class sub_part_view_serializer(serializers.ModelSerializer):
@@ -94,3 +94,30 @@ class sub_module_view_serializer(serializers.ModelSerializer):
 
     def get_cost(self,obj):
         return obj.subID.Total_cost
+
+class customer_serializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = customer
+        fields = '__all__'
+
+
+class product_list_serializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = product_list
+        fields = ('productID', 'orderID', 'quantity')
+
+class product_view_serializer(serializers.ModelSerializer):
+    product_name = serializers.SerializerMethodField('get_name')
+    product_cost = serializers.SerializerMethodField('get_cost')
+
+    class Meta:
+        model = product_list
+        fields = ('productID', 'orderID', 'quantity','product_name','product_cost')
+
+    def get_name(self,obj):
+        return obj.productID.name
+
+    def get_cost(self,obj):
+        return obj.productID.Total_cost

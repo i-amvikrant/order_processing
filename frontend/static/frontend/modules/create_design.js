@@ -143,14 +143,14 @@ $(document).ready(function(){
     
     $("#name_search_tags").autocomplete({source: nameList});
 
-        $.getJSON("http://localhost:8000/bon/modules/?format=json", function (json) {
-    
-            $.each(json, function(key, val) {
-                var design_id = val.designID;
-                nameList2.push(design_id);
-                var string = nameList2.toString();
-                });
-        });
+    $.getJSON("http://localhost:8000/bon/modules/?format=json", function (json) {
+
+        $.each(json, function(key, val) {
+            var design_id = val.designID;
+            nameList2.push(design_id);
+            var string = nameList2.toString();
+            });
+    });
             console.log(nameList2);
 
     $("#name_search_tags2").autocomplete({source: nameList2});

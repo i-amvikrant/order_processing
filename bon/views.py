@@ -7,7 +7,8 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.parsers import JSONParser
 from bon.models import (
     parts, modules, part_list, 
-    sub_module_list, vendor, orders)
+    sub_module_list, vendor, orders,
+    customer, product_list)
 from .serializers import (
     parts_serializer, 
     modules_serializer, 
@@ -19,7 +20,10 @@ from .serializers import (
     create_order_serializer,
     list_order_serializer,
     sub_part_view_serializer,
-    sub_module_view_serializer)
+    sub_module_view_serializer,
+    customer_serializer,
+    product_list_serializer,
+    product_view_serializer)
 
 from rest_framework import generics, status
 from rest_framework.pagination import LimitOffsetPagination
@@ -115,6 +119,36 @@ class sub_part(APIView):
         return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class products(APIView):
+
+    def get(self, request, format=None):
+        queryset = product_list.objects.all()
+        orderID = request.query_params.get('orderID',None)
+        productID = request.query_params.get('productID',None)
+        if orderID is not None:
+            queryset = queryset.filter(orderID__exact=orderID)
+        if productID is not None:
+            queryset = queryset.filter(productID__exact=productID)
+
+        serialized = product_view_serializer(queryset,many=True)
+        return Response(serialized.data)
+
+    def post(self, request, format=None):
+        req_data = request.data
+        serialized = product_list_serializer(data=req_data)
+        if serialized.is_valid():
+            orderID = req_data['orderID']
+            productID = req_data['productID']
+            quantity = int(req_data['quantity'])
+            order_instance = orders.objects.get(pk=orderID)
+            product_instance = modules.objects.get(pk=productID)
+            order_instance.Total_cost += product_instance.Total_cost*quantity
+            order_instance.product_count +=quantity
+            order_instance.save()
+            serialized.save()
+            return Response(serialized.data, status=status.HTTP_201_CREATED)
+        return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class sub_module(APIView):
     
@@ -188,7 +222,17 @@ class order_create(generics.CreateAPIView):
     queryset = orders.objects.all()
     serializer_class = create_order_serializer
 
-class order_detail(generics.RetrieveUpdateDestroyAPIView):
+class order_detail(generics.RetrieveAPIView):
     queryset = orders.objects.all()
-    serializer_class = create_order_serializer
+    serializer_class = list_order_serializer
 
+class customer_list(generics.ListCreateAPIView):
+    queryset = customer.objects.all()
+    serializer_class = customer_serializer
+    pagination_class = LimitOffsetPagination
+    filter_backends = [SearchFilter]
+    search_fields = ['CustomerID','name','City']
+
+class customer_detail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = customer.objects.all()
+    serializer_class = customer_serializer

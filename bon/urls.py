@@ -18,6 +18,9 @@ urlpatterns = [
     path('order_create/',views.order_create.as_view(), name='api_create_order'),
     path('orders/', views.orders_list.as_view(), name='api_list_order'),
     path('order_detail/<str:pk>/', views.order_detail.as_view(), name='api_order_detail'),
+    path('customers/',views.customer_list.as_view(), name='api_customer_list'),
+    path('product_list/', views.products.as_view(), name='api_product_list'),
+    path('customer_detail/<str:pk>/',views.customer_detail.as_view(), name='api_customer_detail')
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

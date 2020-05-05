@@ -1,5 +1,185 @@
 {% extends "frontend/base.html" %}
+{% load static %}
 {% block content%}
+<div class='container'>
+    <!--style="height: 90%; overflow: scroll;"-->
+    <div id="chose_customer">
+        <h2> Existing or New </h2>
+        <br><br><br><br><br>
+        <center>
+            <div id='cus_choice' class="btn-group" data-toggle="buttons">
+                <label id="op1" class="btn btn-primary">
+                    <input type="radio" name="options"> create a new customer
+                  </label>
+                <label id="op2" class="btn btn-primary">
+                  <input type="radio" name="options">Choose existing customer
+                </label>
+            </div>
+        </center>
+        <br><br><br><br><br>
+    </div>
+    <div id='customer_form' class="hidden">
+        <h2> Customer Details </h2>
+        <div>
+            <form id="cus_form" action="#" enctype="multipart/form-data" class="form-horizontal">
+                <fieldset>
+                  <div class="form-group">
+                      <label class="col-sm-2 control-label ">CustomerID</label>
+                      <div class="col-sm-10">
+                          <input id="CustomerID" name="CustomerID" class="form-control" type="text" value="">
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label class="col-sm-2 control-label ">Name</label>
+                        <div class="col-sm-10">
+                            <input id='name' name="name" class="form-control" type="text" value="">
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label class="col-sm-2 control-label ">City</label>
+                        <div class="col-sm-10">
+                            <input id="City" name="City" class="form-control" type="text" value="">
+                        </div>
+                    </div>
+                    <div class="form-group "><label class="col-sm-2 control-label ">Address</label>
+                        <div class="col-sm-10">
+                            <textarea id="Address" name="Address" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label class="col-sm-2 control-label ">Pin</label>
+                        <div class="col-sm-10">
+                            <input id="pin" name="pin" class="form-control" type="text" value="">
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label class="col-sm-2 control-label ">Point of contact(name)</label>
+                        <div class="col-sm-10">
+                            <input id='poc' name="poc" class="form-control" type="text" value="">
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label class="col-sm-2 control-label ">Contact</label>
+                        <div class="col-sm-10">
+                            <input id='contact' name="contact" class="form-control" type="text" value="">
+                            <span class="help-block">phone number of the company or poc</span>
+                        </div>
+                    </div>
+                </fieldset>
+              </form>
+        </div>
+    </div>
+    <div id='select_customer' class="hidden">
+        <h2> Select A Customer </h2>
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-7">
+              <input type="text" id="Customer_id" class="form-control" placeholder="Search for customer by ID, name or city..">
+            </div>
+            <div class="col-sm-3">
+              <button type="button" class=" btn btn-info" id="customer_search">search</button>
+            </div>
+        </div>
+        <div id='customers' class="row" style="height: 500px; overflow: auto;">
+            <br><br>
+            <div id='chose_cus' class="btn-group" data-toggle="buttons">
+            </div>
 
-<h3>Create a New order</h3>
+        </div>
+    </div>
+    <div id='select_designs' class="hidden">
+        <h2> Select products </h2>
+        <div class="row">
+            <div class="col-sm-8">
+              <input type="text" id="design_id" class="form-control" placeholder="Search for products by ID..">
+            </div>
+            <div class="col-sm-3">
+                <input type="number" id="quantity" class="form-control"  name="quant" min="1" max='100' placeholder="quantity">
+            </div>
+            <div class="col-sm-1 ">
+              <button type="button" class=" btn btn-info form-control" id="design_add">add</button>
+            </div>
+        </div>
+        <div id='add_designs' class="row" style="height: 500px; overflow: auto;">
+            <div class="panel-body">
+              
+                <div class = "col-sm-1 ">
+                  <p class="card-text">ID</p>
+                </div>
+                <div class = "col-sm-1 ">
+                  <p class="card-text">Name</p>
+                </div>
+                <div class = "col-sm-3 ">
+                  <p class="card-text ">Description</p>
+                </div>
+                <div class = "col-sm-1 ">
+                  <p class="card-text">type</p>
+                </div>
+                <div class = "col-sm-3 ">
+                  <p class="card-text">Image</p>
+                </div>
+                <div class = "col-sm-1 ">
+                  <p class="card-text">cost(per)</p>
+                </div>
+                <div class = "col-sm-1 ">
+                  <p class="card-text">quantity</p>
+                </div>
+                <div class = "col-sm-1 ">
+                  <p class="card-text">remove</p>
+                </div>
+              </div>
+        </div>
+    </div>
+    <div id='order_details' class="hidden">
+        <h2> Enter Order Details </h2>
+        <form name = "order_form" id="order_form" action="#" >
+            <fieldset>
+              <div class="form-group ">
+                  <label class="col-sm-2 control-label ">OrderID</label>
+                  <div class="col-sm-10">
+                      <input id='orderID' name="orderID" class="form-control" type="text" value="">
+                    </div>
+                </div>
+                
+                <div class="form-group ">
+                    <label class="col-sm-2 control-label ">Due</label>
+                    <div class="col-sm-10">
+                        <input id='due' name="due" class="form-control" type="number" value="">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label ">Status</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" name="status">
+                            <option value="Active">Active</option>
+                            <option value="Scheduled">Scheduled</option>
+                            <option value="delayed">delayed</option>
+                            <option value="Deliveried">Deliveried</option>
+                            <option value="Shipped">Shipped</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <label class="col-sm-2 control-label ">Status description</label>
+                    <div class="col-sm-10">
+                        <textarea id='status_description' name="status_description" class="form-control"></textarea>
+                    </div>
+                </div>
+            </fieldset>
+          </form>
+          <br>
+    </div>
+    <div id='order_summary' class="hidden">
+        <h2>view the order summary and place the order.</h2>
+        <p>Unimplemented: We would display the order summary here</p>
+        <div id="order_summary1"></div>
+    </div>
+    <div>
+        <button id='previous' class="btn btn-primary hidden"  name='post'>previous</button>
+        <button id='next' class="btn btn-primary pull-right"  name='post'>next</button>
+        <button id='submit' class="btn btn-primary pull-right hidden"  name='post'>submit</button>
+    </div>
+</div>
+
+<script src = "{% static 'frontend/orders/create_order.js'%}"></script>
 {% endblock content %}

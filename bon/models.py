@@ -114,7 +114,9 @@ class orders(models.Model):
         ('Scheduled','Scheduled'),
         ('delayed','delayed'),
         ('Deliveried','Deliveried'),
-        ('Shipped','Shipped')
+        ('Shipped','Shipped'),
+        ('Completed','Completed'),
+        ('Cancelled','Cancelled')
     )
 
     orderID = models.CharField(max_length=30, primary_key=True)
@@ -123,16 +125,18 @@ class orders(models.Model):
     due =  models.IntegerField()
     status = models.CharField(max_length=10,choices=STATUS_CHOICES, default='Active')
     status_description = models.TextField(default='None')
+    Total_cost = models.IntegerField(default=0)
+    product_count = models.IntegerField(default=0)
     
     def _get_due_date(self):
         return self.placed+timedelta(days=self.due)
 
     due_date = property(_get_due_date)
 
-
-
     def __str__(self):
         return self.orderID
+
+
 
 class product_list(models.Model):
 
