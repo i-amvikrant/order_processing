@@ -23,7 +23,8 @@ from .serializers import (
     sub_module_view_serializer,
     customer_serializer,
     product_list_serializer,
-    product_view_serializer)
+    product_view_serializer,
+    update_order_serializer)
 
 from rest_framework import generics, status
 from rest_framework.pagination import LimitOffsetPagination
@@ -143,7 +144,9 @@ class products(APIView):
             order_instance = orders.objects.get(pk=orderID)
             product_instance = modules.objects.get(pk=productID)
             order_instance.Total_cost += product_instance.Total_cost*quantity
-            order_instance.product_count +=quantity
+            print("Total cost :",order_instance.Total_cost)
+            order_instance.product_count += quantity
+            print("Product count :",order_instance.product_count)
             order_instance.save()
             serialized.save()
             return Response(serialized.data, status=status.HTTP_201_CREATED)
@@ -213,9 +216,19 @@ class vendor_list(generics.ListCreateAPIView):
 class orders_list(generics.ListAPIView):
     serializer_class = list_order_serializer
     pagination_class = LimitOffsetPagination
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ['orderID','customerID__name']
+    ordering_fields = ['placed','Total_cost']
 
     def get_queryset(self):
         queryset = orders.objects.all()
+
+        status = self.request.query_params.get('status',None)
+        customerID = self.request.query_params.get('customerID',None)
+        if status is not None:
+            queryset = queryset.filter(status__exact=status)
+        if customerID is not None:
+            queryset = queryset.filter(customerID__exact=customerID)
         return queryset
 
 class order_create(generics.CreateAPIView):
@@ -225,6 +238,10 @@ class order_create(generics.CreateAPIView):
 class order_detail(generics.RetrieveAPIView):
     queryset = orders.objects.all()
     serializer_class = list_order_serializer
+
+class order_update(generics.UpdateAPIView):
+    queryset = orders.objects.all()
+    serializer_class = update_order_serializer
 
 class customer_list(generics.ListCreateAPIView):
     queryset = customer.objects.all()

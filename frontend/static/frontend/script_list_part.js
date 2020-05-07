@@ -44,6 +44,7 @@ function display_part(data){
 
 $(document).ready(function(){
     var nameList=[];
+    var prevscroll_value = 0;
     $.getJSON("http://localhost:8000/bon/parts_autocomplete/?format=json", function (json) {
         
         $.each(json, function(key, val) {
@@ -76,6 +77,7 @@ $(document).ready(function(){
             console.log(json);
             $.each(json.results,function(key,val){
                 next=json.next;
+                prevscroll_value=0;
                 display_part(val);
             });
         });
@@ -83,14 +85,14 @@ $(document).ready(function(){
     });
 
     $(window).scroll(function(){
-        if((window.innerHeight+window.scrollY)+1>=document.body.offsetHeight){
+        scroll_value = Math.ceil(window.innerHeight+window.scrollY)
+        if(scroll_value>=document.body.offsetHeight && prevscroll_value<scroll_value){
             if(next!=null || next!=head){
+                prevscroll_value = scroll_value;
                 $.getJSON(next, function(json){
                     next = json.next;
                     $.each(json.results,function(key,val){
-
                         display_part(val);
-
                     });
                 });
             }

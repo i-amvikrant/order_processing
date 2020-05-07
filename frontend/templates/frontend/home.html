@@ -1,5 +1,116 @@
 {% extends "frontend/base.html" %}
+{% load static %}
 {% block content%}
+<div class="container">
+    <h2>Dashboard</h2>
+    <br>
+    <div>
+        <h3>Active Orders</h3>
+        <div id='active_orders' class="row" style="height: 350px; overflow: auto;">
+            <!--active orders will be built here-->
+            </div>
+            
+            <h3>Scheduled</h3>
+        <div id='scheduled_orders' class="row" style="height: 350px; overflow: auto;">
+            <!--Scheduled orders will be built here-->
+            
+            </div>
+        </div>
+        
+    </div>
+</div>
+<script type="text/javascript">
 
-<h3>click on the links on nav bar to navigate</h3>
+    function order_print(element,json){
+        var status = json.status;
+        var panel;
+
+        if(status=='Active'){
+            panel = 'panel-success';
+        }
+        else if(status=='Scheduled'){
+            panel = 'panel-info'
+        }
+        else if(status=='delayed'){
+            panel = 'panel-warning'
+        }
+        else if(status=='Delivered'){
+            panel = 'panel-success'
+        }
+        else if(status=='Shipped'){
+            panel = 'panel-success'
+        }
+        else if(status=='Completed'){
+            panel = 'panel-default'
+        }
+        else if(status=='Cancelled'){
+            panel = 'panel-danger'
+        }
+
+
+        $(element).append(
+            `
+            <div class="panel `+panel+`">
+                <a href ="http://localhost:8000/order_detail/`+json.orderID+`">
+                    <div class="panel-body">
+                        <div class='col-sm-3' style="text-align: center;">
+                            Order Id
+                            <h3>`+json.orderID+`</h3>
+                        </div>
+                        <div class="col-sm-3" style="text-align: center;">
+                            Customer name
+                            <h3>`+json.cus_name+`</h3>
+                        </div>
+                        <div class="col-sm-4" style="text-align: center;">
+                            due on
+                            <h3 class="text-overflow">`+json.due_date+`</h3>
+                        </div>
+                        <div class="col-sm-2" style="text-align: center;">
+                            <div class='panel `+panel+`'>
+                                <div class='panel-heading'>
+                                    <h4>`+status+`</h4>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </a>
+            </div>
+            `
+        );
+    }
+
+    var url1 = "http://localhost:8000/bon/orders/?ordering=placed&status=Active&format=json";
+    $.ajax({
+        url: url1,
+        type: 'GET',
+        success: function(data){
+            console.log(data);
+            $.each(data,function(key,val){
+                order_print('#active_orders',val);
+    
+            });
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert(String(textStatus) + String(XMLHttpRequest.responseText));
+        }
+    });
+
+    var url2 = "http://localhost:8000/bon/orders/?ordering=placed&status=Scheduled&format=json";
+    $.ajax({
+        url: url2,
+        type: 'GET',
+        success: function(data){
+            console.log(data);
+            $.each(data,function(key,val){
+                order_print('#scheduled_orders',val);
+    
+            });
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert(String(textStatus) + String(XMLHttpRequest.responseText));
+        }
+    });
+
+</script>
 {% endblock content %}

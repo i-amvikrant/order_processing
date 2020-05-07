@@ -58,11 +58,21 @@ class create_order_serializer(serializers.ModelSerializer):
         model = orders
         fields = ('orderID','customerID','due','status','status_description')
 
-class list_order_serializer(serializers.ModelSerializer):
+class update_order_serializer(serializers.ModelSerializer):
 
     class Meta:
         model = orders
-        fields = ('orderID','customerID','placed','due','due_date','status','status_description','Total_cost','product_count')
+        fields = ('status','status_description')
+
+class list_order_serializer(serializers.ModelSerializer):
+    cus_name =serializers.SerializerMethodField('get_name')
+
+    class Meta:
+        model = orders
+        fields = ('orderID','cus_name','placed','due','due_date','status','status_description','Total_cost','product_count')
+
+    def get_name(self,obj):
+        return obj.customerID.name
 
 
 class sub_part_view_serializer(serializers.ModelSerializer):
@@ -111,13 +121,21 @@ class product_list_serializer(serializers.ModelSerializer):
 class product_view_serializer(serializers.ModelSerializer):
     product_name = serializers.SerializerMethodField('get_name')
     product_cost = serializers.SerializerMethodField('get_cost')
+    product_type = serializers.SerializerMethodField('get_type')
+    product_image = serializers.SerializerMethodField('get_image')
 
     class Meta:
         model = product_list
-        fields = ('productID', 'orderID', 'quantity','product_name','product_cost')
+        fields = ('productID', 'orderID', 'quantity','product_name','product_cost','product_type','product_image')
 
     def get_name(self,obj):
         return obj.productID.name
 
     def get_cost(self,obj):
         return obj.productID.Total_cost
+
+    def get_type(self,obj):
+        return obj.productID.Type
+
+    def get_image(self,obj):
+        return obj.productID.image.url

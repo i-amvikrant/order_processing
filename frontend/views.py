@@ -29,3 +29,7 @@ def module_detail(request, id):
 def order_create(request):
     return render(request, 'frontend/create_order.html',{})
 
+def order_detail(request, id):
+    context = requests.get('http://localhost:8000/bon/order_detail/'+id+'/?format=json').json()
+    return render(request,'frontend/order_detail.html',context)
+

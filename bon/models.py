@@ -133,6 +133,26 @@ class orders(models.Model):
 
     due_date = property(_get_due_date)
 
+
+    def save(self,*args, **kwargs):
+
+        create=False
+
+        try:
+            print(self.due_date)
+
+        except TypeError:
+            create=True
+
+        if create:
+            print("create triggered")
+            return super(orders,self).save()
+
+        else:
+            kwargs.setdefault('update_fields',['Total_cost','product_count','status','status_description'])
+            print("update triggered")
+            return super(orders,self).save(**kwargs)
+
     def __str__(self):
         return self.orderID
 
