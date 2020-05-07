@@ -46,7 +46,10 @@ $(document).ready(function(){
 
       var x =$('form')[0];
       var data1 =  new FormData(x);
-      
+      data1.append('vendorID',$('#vendorID').val());
+      for (var pair of data1.entries()) {
+        console.log(pair[0]+ ', ' + pair[1]); 
+    }
 
       $.ajax({
         type: "POST",

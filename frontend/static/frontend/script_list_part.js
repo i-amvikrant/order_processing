@@ -8,7 +8,7 @@ function display_part(data){
             <div class="panel-body vcenter" >
                 <div class='col-sm-2'>
                 <p style="padding: 0px; margin: 0px;">`+data.PartID+`<p>
-                <h2 style="padding: 0px; margin: 0px;">`+data.name+`</h2>
+                <h3 style="padding: 0px; margin: 0px;">`+data.name+`</h3>
                 </div>
                 <div class="col-sm-2">
                 <p style="padding: 0px;">description</p>

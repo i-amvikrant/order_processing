@@ -111,7 +111,7 @@ $(document).ready(function(){
         
         if(confirm("Do you want the delete this module")){
 
-            var del_url =  'http://localhost:8000/bon/module_detail/'+'{{designID}}';
+            var del_url =  'http://localhost:8000/bon/module_detail/'+designID;
             $.ajax({
                 url: del_url,
                 type: 'DELETE',
