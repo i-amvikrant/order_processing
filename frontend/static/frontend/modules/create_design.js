@@ -131,27 +131,27 @@ $(document).ready(function(){
         }
     });
 
-    $.getJSON("http://localhost:8000/bon/parts_autocomplete/?format=json", function (json) {
+    $.getJSON(api_base+"parts_autocomplete/?format=json", function (json) {
         
         $.each(json, function(key, val) {
             var part_id = val.PartID;
             nameList.push(part_id);
-            var string = nameList.toString();
+            //var string = nameList.toString();
             });
     });
-        console.log(nameList);
+        //console.log(nameList);
     
     $("#name_search_tags").autocomplete({source: nameList});
 
-    $.getJSON("http://localhost:8000/bon/modules/?format=json", function (json) {
+    $.getJSON(api_base+"modules/?format=json", function (json) {
 
         $.each(json, function(key, val) {
             var design_id = val.designID;
             nameList2.push(design_id);
-            var string = nameList2.toString();
+            //var string = nameList2.toString();
             });
     });
-            console.log(nameList2);
+            //console.log(nameList2);
 
     $("#name_search_tags2").autocomplete({source: nameList2});
 
@@ -164,7 +164,7 @@ $(document).ready(function(){
         if (id.length !=0 && quant.length!=0 && index!=-1){
             if(!(id in addedparts)){
                 addedparts[id]=quant;
-                $.getJSON("http://localhost:8000/bon/part_detail/"+id+"/?format=json", function (json){
+                $.getJSON(api_base+"part_detail/"+id+"/?format=json", function (json){
                     partcost[id]=json.cost;
                     create_card(json);
                 });
@@ -192,7 +192,7 @@ $(document).ready(function(){
             if(!(id2 in addedparts2)){
                 addedparts2[id2]=quant2;
 
-                $.getJSON("http://localhost:8000/bon/module_detail/"+id2+"/?format=json", function (json){
+                $.getJSON(api_base+"module_detail/"+id2+"/?format=json", function (json){
                     console.log(json);
                     modulecost[id2] = json.Total_cost;
                     create_card(json);
@@ -225,7 +225,7 @@ $(document).ready(function(){
 
         if(designID.length!=0){
             
-            urlExists('http://localhost:8000/bon/module_detail/'+designID+'/?format=json', function(exists){
+            urlExists(api_base+'module_detail/'+designID+'/?format=json', function(exists){
                 if(exists){
                     alert("Give a unique design ID");
                 }
@@ -245,11 +245,11 @@ $(document).ready(function(){
                     newform.append("design_fee",dfee);
                     newform.append("assembly_fee",afee);
 
-                    console.log(newform);
+                    //console.log(newform);
 
                     $.ajax({
                         type: "POST",
-                        url: "http://localhost:8000/bon/modules/",
+                        url: api_base+"modules/",
                         data: newform,
                         async: false,
                         timeout: 30000,
@@ -264,18 +264,18 @@ $(document).ready(function(){
                     });
                 
                     for( x in addedparts){
-                        console.log(x);
+                        //console.log(x);
                         
                         var pay= new FormData();
                         pay.append("designID", designID);
                         pay.append("PartID", x);
                         var part_quant = parseInt(addedparts[x]);
-                        console.log("The answer you need :",part_quant);
+                        //console.log("The answer you need :",part_quant);
                         pay.append("quantity", part_quant);
 
                         $.ajax({
                             type: "POST",
-                            url: "http://localhost:8000/bon/sub_part/",
+                            url: api_base+"sub_part/",
                             data: pay,
                             contentType: false,
                             processData: false,
@@ -289,7 +289,7 @@ $(document).ready(function(){
                             }
                         });
                     }
-                    console.log("Hereee",addedparts2);
+                    //console.log("Hereee",addedparts2);
                     for( s in addedparts2){
                         
                         var payload = new FormData();
@@ -300,7 +300,7 @@ $(document).ready(function(){
 
                         $.ajax({
                             type: "POST",
-                            url: "http://localhost:8000/bon/sub_module/",
+                            url: api_base+"sub_module/",
                             data: payload,
                             contentType: false,
                             processData: false,
@@ -319,7 +319,7 @@ $(document).ready(function(){
                         
 
                         $(document).ajaxStop(function(){
-                            console.log("this should be last",flag);
+                            //console.log("this should be last",flag);
                             if(flag){
                                 window.location.replace("/");
                             }

@@ -10,7 +10,7 @@ urlpatterns = [
     path('parts/', views.parts_list.as_view(), name='api_part_list'),
     path('modules/', views.modules_list.as_view()),
     path('part_detail/<str:pk>/', views.part_detail.as_view(), name='api_part_detail'),
-    path('module_detail/<str:pk>/', views.module_detail.as_view()),
+    path('module_detail/<str:pk>/', views.module_detail.as_view(), name='api_module_detail'),
     path('sub_part/', views.sub_part.as_view()),
     path('sub_module/', views.sub_module.as_view()),
     path('part_create/', views.part_create.as_view()),

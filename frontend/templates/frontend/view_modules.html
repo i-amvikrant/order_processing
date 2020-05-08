@@ -68,7 +68,7 @@
     $(document).ready(function(){
     var nameList=[];
     var prevscroll_value = 0;
-    $.getJSON("http://localhost:8000/bon/modules_autocomplete/?format=json", function (json) {
+    $.getJSON(api_base+"modules_autocomplete/?format=json", function (json) {
         
         $.each(json, function(key, val) {
             var design_id = val.designID;
@@ -80,7 +80,7 @@
     $("#designID").autocomplete({source: nameList});
 
 
-    var head = "http://localhost:8000/bon/modules/?limit=5&ordering=-made&format=json";
+    var head = api_base+"modules/?limit=5&ordering=-made&format=json";
     var next ;
     $.getJSON(head, function(json){
         $.each(json.results,function(key,val){
@@ -96,7 +96,7 @@
         var keyword = $('#designID').val();
         //console.log("http://localhost:8000/bon/parts/?search="+keyword+"&ordering=-made&limit=5&format=json");
         $('#modulelist').empty();
-        head = "http://localhost:8000/bon/modules/?search="+keyword+"&limit=5&ordering=-made&format=json";
+        head = api_base+"modules/?search="+keyword+"&limit=5&ordering=-made&format=json";
         $.getJSON(head,function(json){
             console.log(json);
             $.each(json.results,function(key,val){

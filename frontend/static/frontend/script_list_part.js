@@ -43,9 +43,10 @@ function display_part(data){
 }
 
 $(document).ready(function(){
+    //console.log(api_base);
     var nameList=[];
     var prevscroll_value = 0;
-    $.getJSON("http://localhost:8000/bon/parts_autocomplete/?format=json", function (json) {
+    $.getJSON(api_base+"parts_autocomplete/?format=json", function (json) {
         
         $.each(json, function(key, val) {
             var part_id = val.PartID;
@@ -57,7 +58,7 @@ $(document).ready(function(){
     $("#PartID").autocomplete({source: nameList});
 
 
-    var head = "http://localhost:8000/bon/parts/?limit=5&format=json";
+    var head = api_base+"parts/?limit=5&format=json";
     var next ;
     $.getJSON(head, function(json){
         $.each(json.results,function(key,val){
@@ -70,9 +71,9 @@ $(document).ready(function(){
 
     $('#part_search').on('click',function(){
         var keyword = $('#PartID').val();
-        console.log("http://localhost:8000/bon/parts/?search="+keyword+"&limit=5&format=json");
+        //console.log("http://localhost:8000/bon/parts/?search="+keyword+"&limit=5&format=json");
         $('#partlist').empty();
-        head = "http://localhost:8000/bon/parts/?search="+keyword+"&limit=5&format=json";
+        head = api_base+"parts/?search="+keyword+"&limit=5&format=json";
         $.getJSON(head,function(json){
             console.log(json);
             $.each(json.results,function(key,val){

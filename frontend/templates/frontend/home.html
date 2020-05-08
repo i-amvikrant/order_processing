@@ -79,38 +79,40 @@
             `
         );
     }
+    $(document).ready(function(){
+        var url1 = api_base+"orders/?ordering=-placed&status=Active&format=json";
+        $.ajax({
+            url: url1,
+            type: 'GET',
+            success: function(data){
+                //console.log(data);
+                $.each(data,function(key,val){
+                    order_print('#active_orders',val);
+        
+                });
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                alert(String(textStatus) + String(XMLHttpRequest.responseText));
+            }
+        });
 
-    var url1 = "http://localhost:8000/bon/orders/?ordering=placed&status=Active&format=json";
-    $.ajax({
-        url: url1,
-        type: 'GET',
-        success: function(data){
-            console.log(data);
-            $.each(data,function(key,val){
-                order_print('#active_orders',val);
-    
-            });
-        },
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            alert(String(textStatus) + String(XMLHttpRequest.responseText));
-        }
+        var url2 = api_base+"orders/?ordering=placed&status=Scheduled&format=json";
+        $.ajax({
+            url: url2,
+            type: 'GET',
+            success: function(data){
+                //console.log(data);
+                $.each(data,function(key,val){
+                    order_print('#scheduled_orders',val);
+        
+                });
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                alert(String(textStatus) + String(XMLHttpRequest.responseText));
+            }
+        });
     });
-
-    var url2 = "http://localhost:8000/bon/orders/?ordering=placed&status=Scheduled&format=json";
-    $.ajax({
-        url: url2,
-        type: 'GET',
-        success: function(data){
-            console.log(data);
-            $.each(data,function(key,val){
-                order_print('#scheduled_orders',val);
     
-            });
-        },
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            alert(String(textStatus) + String(XMLHttpRequest.responseText));
-        }
-    });
 
 </script>
 {% endblock content %}

@@ -73,11 +73,11 @@ $(document).ready(function(){
     //console.log(typeof Sub_modules);
     if(parts!=0){
         $.ajax({
-            url: 'http://localhost:8000/bon/sub_part/?designID='+designID,
+            url: api_base+'sub_part/?designID='+designID,
             type: 'GET',
             success: function(data1){
                 for(x1 in data1){
-                    console.log(data1[x1]);
+                    //console.log(data1[x1]);
                     add_to_table(data1[x1],x1);
                 }
             },
@@ -89,11 +89,11 @@ $(document).ready(function(){
     
     if(Sub_modules!=0){
         $.ajax({
-            url: 'http://localhost:8000/bon/sub_module/?designID='+designID,
+            url: api_base+'sub_module/?designID='+designID,
             type: 'GET',
             success: function(data2){
                 for(x2 in data2){
-                    console.log(data2[x2]);
+                    //console.log(data2[x2]);
                     add_to_table(data2[x2],x2);
                 }
             },
@@ -111,7 +111,7 @@ $(document).ready(function(){
         
         if(confirm("Do you want the delete this module")){
 
-            var del_url =  'http://localhost:8000/bon/module_detail/'+designID;
+            var del_url =  api_base+'module_detail/'+designID;
             $.ajax({
                 url: del_url,
                 type: 'DELETE',

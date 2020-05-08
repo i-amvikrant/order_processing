@@ -29,7 +29,7 @@ $(document).ready(function(){
         }
     });
 
-    $.getJSON("http://localhost:8000/bon/vendors/?format=json", function (json) {
+    $.getJSON(api_base+"vendors/?format=json", function (json) {
         
         $.each(json, function(key, val) {
             var vendor_id = val.vendorID;
@@ -53,7 +53,7 @@ $(document).ready(function(){
 
       $.ajax({
         type: "POST",
-        url: "http://localhost:8000/bon/parts/",
+        url: api_base+"parts/",
         data: data1,
         async: false,
         contentType: false,

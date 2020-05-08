@@ -78,7 +78,7 @@
             
             if(confirm("Do you want the delete this part")){
 
-                var del_url =  'http://localhost:8000/bon/part_detail/'+'{{PartID}}';
+                var del_url =  api_base+'part_detail/'+'{{PartID}}';
                 $.ajax({
                     url: del_url,
                     type: 'DELETE',

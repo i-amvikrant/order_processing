@@ -32,10 +32,10 @@ function urlExists(url, callback){
 
 function remove_part(ID){
 
-    console.log(addedparts2);
+    //console.log(addedparts2);
     delete addedparts2[ID];
     delete modulecost[ID];
-    console.log(modulecost);
+    //console.log(modulecost);
     
     $("#"+ID).remove();
 }
@@ -122,7 +122,7 @@ function add_customer(json){
 function customer_validate(){
     customerid = $('#CustomerID').val();
     if(customerid.length!=0){
-        urlExists('http://localhost:8000/bon/customer_detail/'+customerid+'/?format=json',function(exists){
+        urlExists(api_base+'customer_detail/'+customerid+'/?format=json',function(exists){
             if(exists){
                 alert("Enter a Unique Customer ID");
                 return false;
@@ -175,14 +175,14 @@ function customer_validate(){
 }
 
 function order_validate(){
-    console.log('order validation done');
+    //console.log('order validation done');
     orderid = $('#orderID').val();
     if(orderid.length==0){
         alert("Enter Order id");
         return false;
     }
     else{
-        urlExists('http://localhost:8000/bon/order_detail/'+orderid+'/?format=json',function(exists){
+        urlExists(api_base+'order_detail/'+orderid+'/?format=json',function(exists){
             if(exists){
                 alert("Enter a Unique order ID");
                 return false;
@@ -244,7 +244,7 @@ $(document).ready(function(){
     var new_customer = false;
     var nameList2 = [];
 
-    $.getJSON("http://localhost:8000/bon/modules/?format=json", function (json) {
+    $.getJSON(api_base+"modules/?format=json", function (json) {
 
         $.each(json, function(key, val) {
             var design_id = val.designID;
@@ -266,7 +266,7 @@ $(document).ready(function(){
             if(!(id2 in addedparts2)){
                 addedparts2[id2]=quant2;
 
-                $.getJSON("http://localhost:8000/bon/module_detail/"+id2+"/?format=json", function (json){
+                $.getJSON(api_base+"module_detail/"+id2+"/?format=json", function (json){
                     console.log(json);
                     modulecost[id2] = json.Total_cost;
                     create_card(json);
@@ -367,7 +367,7 @@ $(document).ready(function(){
 
     });
 
-    var url = "http://localhost:8000/bon/customers/?format=json";
+    var url = api_base+"customers/?format=json";
     $.ajax({
         url: url,
         type: 'GET',
@@ -393,7 +393,7 @@ $(document).ready(function(){
             }
             $.ajax({
                 type: "POST",
-                url: "http://localhost:8000/bon/customers/",
+                url: api_base+"customers/",
                 data: cus_data,
                 async: false,
                 timeout: 30000,
@@ -418,7 +418,7 @@ $(document).ready(function(){
         
         $.ajax({
             type: "POST",
-            url: "http://localhost:8000/bon/order_create/",
+            url: api_base+"order_create/",
             data: order_data,
             async: false,
             timeout: 30000,
@@ -444,7 +444,7 @@ $(document).ready(function(){
             
             $.ajax({
                 type: "POST",
-                url: "http://localhost:8000/bon/product_list/",
+                url: api_base+"product_list/",
                 data: payload,
                 contentType: false,
                 processData: false,
@@ -461,7 +461,7 @@ $(document).ready(function(){
             }
 
             $(document).ajaxStop(function(){
-                console.log("this should be last",flag);
+                //console.log("this should be last",flag);
                 if(flag){
                     window.location.replace("/");
                 }

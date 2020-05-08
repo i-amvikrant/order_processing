@@ -65,11 +65,11 @@ $(document).ready(function(){
     console.log(count);
     if(count!=0){
         $.ajax({
-            url: 'http://localhost:8000/bon/product_list/?orderID='+id,
+            url: api_base+'product_list/?orderID='+id,
             type: 'GET',
             success: function(data2){
                 for(x2 in data2){
-                    console.log(data2[x2]);
+                    //console.log(data2[x2]);
                     add_to_table(data2[x2],x2);
                 }
             },
@@ -89,17 +89,18 @@ $(document).ready(function(){
         var up_data =new FormData();
         up_data.append('status',new_status);
         up_data.append('status_description',des);
+        /*
         for (pair of up_data.entries()) {
             console.log(pair[0]+ ', ' + pair[1]); 
-        }
+        }*/
         $.ajax({
             type: "PUT",
-            url: "http://localhost:8000/bon/order_update/"+id+"/",
+            url: api_base+"order_update/"+id+"/",
             data: up_data,
             contentType: false,
             processData: false,
             success: function(data){
-                console.log(data);
+                //console.log(data);
                 location.reload();
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
