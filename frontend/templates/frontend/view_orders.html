@@ -1,27 +1,29 @@
 {% extends "frontend/base.html" %}
-{% load static %}
 {% block content%}
-<div class="container">
-    <h2>Dashboard</h2>
-    <br>
-    <div>
-        <h3>Active Orders</h3>
-        <div id='active_orders' class="row" style="height: 350px; overflow: auto;">
-            <!--active orders will be built here-->
-            </div>
-            
-            <h3>Scheduled</h3>
-        <div id='scheduled_orders' class="row" style="height: 350px; overflow: auto;">
-            <!--Scheduled orders will be built here-->
-            
-            </div>
-        </div>
-        
-    </div>
-</div>
-<script type="text/javascript">
 
+<div class="col-sm-3">
+  <div class="affix">
+    <h2>Orders</h2>
+    <br><br>
+    <div class="row">
+      <div class="col-sm-9">
+        <input type="text" id="order_id" class="form-control" placeholder="Search for orders with customer or status..">
+      </div>
+      <div class="col-sm-3">
+        <button type="button" class=" btn btn-info" id="order_search">search</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-sm-9" id='orderlist'>
+  <br>
+
+</div>
+<script>
+        
     function order_print(element,json){
+        console.log(json);
         var status = json.status;
         var panel;
 
@@ -79,40 +81,57 @@
             `
         );
     }
+
     $(document).ready(function(){
-        var url1 = api_base+"orders/?ordering=-placed&status=Active&format=json";
-        $.ajax({
-            url: url1,
-            type: 'GET',
-            success: function(data){
-                //console.log(data);
-                $.each(data,function(key,val){
-                    order_print('#active_orders',val);
-        
-                });
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                alert(String(textStatus) + String(XMLHttpRequest.responseText));
-            }
+        var nameList=[];
+        var prevscroll_value = 0;
+
+
+        var head = api_base+"orders/?limit=5&ordering=-placed&format=json";
+        var next ;
+        $.getJSON(head, function(json){
+            console.log(json.next);
+            next = json.next;
+            $.each(json.results,function(key,val){
+                //console.log(val.status);
+                order_print('#orderlist',val);
+
+            });
         });
 
-        var url2 = api_base+"orders/?ordering=placed&status=Scheduled&format=json";
-        $.ajax({
-            url: url2,
-            type: 'GET',
-            success: function(data){
-                //console.log(data);
-                $.each(data,function(key,val){
-                    order_print('#scheduled_orders',val);
-        
+        $('#order_search').on('click',function(){
+
+            var keyword = $('#order_id').val();
+            //console.log("http://localhost:8000/bon/parts/?search="+keyword+"&ordering=-made&limit=5&format=json");
+            $('#orderlist').empty();
+            head = api_base+"orders/?search="+keyword+"&limit=5&ordering=-placed&format=json";
+            $.getJSON(head,function(json){
+                //console.log(json);
+                $.each(json.results,function(key,val){
+                    next=json.next;
+                    prevscroll_value=0;
+                    order_print('#orderlist',val);
                 });
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                alert(String(textStatus) + String(XMLHttpRequest.responseText));
+            });
+
+        });
+
+        
+        $(window).scroll(function(){
+            scroll_value = Math.ceil(window.innerHeight+window.scrollY)
+            if(scroll_value>=document.body.offsetHeight && prevscroll_value<scroll_value){
+                if(next!=null || next!=head){
+                    prevscroll_value = scroll_value;
+                    $.getJSON(next, function(json){
+                        next = json.next;
+                        $.each(json.results,function(key,val){
+                            order_print('#orderlist',val);
+                        });
+                    });
+                }
             }
+
         });
     });
-    
-
 </script>
 {% endblock content %}

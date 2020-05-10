@@ -33,3 +33,6 @@ def order_detail(request, id):
     context = requests.get('http://localhost:8000/bon/order_detail/'+id+'/?format=json').json()
     return render(request,'frontend/order_detail.html',context)
 
+def order_view(request):
+    return render(request,'frontend/view_orders.html',{})
+

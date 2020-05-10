@@ -36,7 +36,7 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Orders <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <li><a href="{% url 'create_order' %}">Create Order</a></li>
-                  <li><a href="#">View Orders</a></li>
+                  <li><a href="{% url 'view_order' %}">View Orders</a></li>
                 </ul>
               </li>
               <li class="dropdown">
@@ -70,6 +70,7 @@
   </div>
   <script>
     var api_base = "http://localhost:8000/bon/";
+    var base = "http://localhost:8000/";
     $(document).ready(function(){
       $(function() {
         $("li").click(function() {

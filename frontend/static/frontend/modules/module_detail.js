@@ -43,7 +43,7 @@ function add_to_table(json,index){
         `
         <tr>
             <th scope="row">`+(parseInt(index)+1)+`</th>
-            <td><a href ="http://localhost:8000/`+reroute+`/`+id+`">
+            <td><a href ="`+base+reroute+`/`+id+`">
             `+id+`<a>
             </td>
             <td>`+name+`</td>

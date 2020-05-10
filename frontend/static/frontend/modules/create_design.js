@@ -334,6 +334,3 @@ $(document).ready(function(){
         }
         });
 });
-
-
-

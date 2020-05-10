@@ -27,6 +27,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+#HSTS Settings
+#SECURE_HSTS_SECONDS = 60
+
+#XSS
+SECURE_CONTENT_TYPE_NONSNIFF = True
 
 # Application definition
 

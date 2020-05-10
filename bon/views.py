@@ -217,7 +217,7 @@ class orders_list(generics.ListAPIView):
     serializer_class = list_order_serializer
     pagination_class = LimitOffsetPagination
     filter_backends = [SearchFilter, OrderingFilter]
-    search_fields = ['orderID','customerID__name']
+    search_fields = ['orderID','customerID__name','status','customerID__City']
     ordering_fields = ['placed','Total_cost']
 
     def get_queryset(self):

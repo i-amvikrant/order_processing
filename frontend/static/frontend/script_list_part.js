@@ -4,7 +4,7 @@ function display_part(data){
     $('#partlist').append(
         `
         <div class="panel panel-default">
-            <a href ="http://localhost:8000/part_detail/`+data.PartID+`">
+            <a href ="`+base+`part_detail/`+data.PartID+`">
             <div class="panel-body vcenter" >
                 <div class='col-sm-2'>
                 <p style="padding: 0px; margin: 0px;">`+data.PartID+`<p>

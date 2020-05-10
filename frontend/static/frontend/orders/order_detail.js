@@ -29,7 +29,7 @@ function add_to_table(json,index){
         `
         <tr>
             <th class = 'col-sm-1'>`+(parseInt(index)+1)+`</th>
-            <td class = 'col-sm-2'><a href ="http://localhost:8000/module_detail/`+id+`">
+            <td class = 'col-sm-2'><a href ="`+base+`module_detail/`+id+`">
             `+id+`<a>
             </td>
             <td class = 'col-sm-2'>`+name+`</td>
