@@ -43,7 +43,7 @@ class modules(models.Model):
     description = models.TextField( default='none')
     Type = models.CharField(max_length=10, default='aaaa')
     made = models.DateField(auto_now=True)
-    image = models.ImageField(upload_to='media/parts', default='abc.jpg')
+    image = models.ImageField(upload_to='media/modules', default='abc.jpg')
     inventory = models.IntegerField(default=0)
     design_fee = models.IntegerField('design_fee(in rupees)', default=0)
     assembly_fee = models.IntegerField('per_piece_assembly_fee(in rupees', default=0)
