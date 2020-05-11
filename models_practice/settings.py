@@ -23,15 +23,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '_@##z4rv9ek8+$qy8-yqv0)azt0d^i&qiu956&w5*!zcv4q50y'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 #HSTS Settings
 #SECURE_HSTS_SECONDS = 60
-
-#XSS
-SECURE_CONTENT_TYPE_NONSNIFF = True
 
 # Application definition
 
@@ -87,8 +84,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'order_processing',
         'USER' : 'postgres',
-        'PASSWORD' : 'data',
-        'HOST' : 'localhost',
+        'PASSWORD' : 'Manud673',
+        'HOST' : 'django-op-data.c9agmlbnzpdn.us-east-2.rds.amazonaws.com',
         'PORT' : '5432'
 
     }
